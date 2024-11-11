@@ -12,20 +12,24 @@ struct HomePage: View {
     var body: some View {
         VStack{
             NavigationStack {
-                HStack {
-                    Text("\(stars)")
-                        .font(.largeTitle)
-                        .offset(x: 150, y:-370)
-                        .bold()
-                    Image(systemName: "star.fill")
-                        .symbolRenderingMode(.multicolor)
-                        .font(.largeTitle)
-                        .offset(x: 150, y:-370)
-                        .shadow(color: Color("Gold"), radius: 15, y: 5)
+                VStack{
+                    HStack {
+                        Text("\(stars)")
+                            .font(.largeTitle)
+                            .offset(x: 150, y:-370)
+                            .bold()
+                        Image(systemName: "star.fill")
+                            .symbolRenderingMode(.multicolor)
+                            .font(.largeTitle)
+                            .offset(x: 150, y:-370)
+                            .shadow(color: Color("Gold"), radius: 50, y: 5)
                         
+                    }
+                    .navigationTitle("Home")
+                    .navigationBarTitleDisplayMode(.large)
+                    
+                 
                 }
-                .navigationTitle("Home")
-                .navigationBarTitleDisplayMode(.large)
             }
         }
     }
