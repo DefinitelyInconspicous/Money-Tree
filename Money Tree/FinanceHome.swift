@@ -13,12 +13,9 @@ struct FinanceHome: View {
             VStack {
                 VStack {
                     Text("View Expenses")
-                        .font(.title3)
+                        .font(.headline)
                     NavigationLink(destination: ExpensesList()) {
                         Text("")
-                    }
-                    List {
-                        
                     }
                 }
             }
