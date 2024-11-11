@@ -27,9 +27,10 @@ struct HomePage: View {
                     }
                     .navigationTitle("Home")
                     .navigationBarTitleDisplayMode(.large)
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.gray.opacity(0.2))
-                    
+                    Image("pot11")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width:200, height:200)
                  
                 }
             }
