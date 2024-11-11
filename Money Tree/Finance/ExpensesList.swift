@@ -15,38 +15,37 @@ struct ExpensesList: View {
     @State var expenseAdd = false
     var body: some View {
         NavigationStack {
-            VStack {
+            List {
                 ForEach($expenseList, id: \.id) { item in
                     var count = 3
                     if count != 0 {
-                        Button {
-                            item.wrappedValue.timeact.toggle()
-                        } label: {
-                            VStack {
-                                HStack {
-                                    Text(item.wrappedValue.cat)
-                                        .foregroundStyle(.white)
-                                        .fontWeight(.heavy)
-                                    Spacer()
-                                    Text("\(round(item.wrappedValue.amt))")
-                                        .foregroundStyle(.white)
-                                        .fontWeight(.heavy)
-                                }
-                                if (item.wrappedValue.timeact == true) {
-                                    Text("\(item.wrappedValue.time.formatted())")
-                                        .foregroundStyle(.white)
-                                        .fontWeight(.medium)
-                                    
+                        HStack {
+                            Button {
+                                item.wrappedValue.timeact.toggle()
+                            } label: {
+                                VStack {
+                                    HStack {
+                                        Text(item.wrappedValue.cat)
+                                            .foregroundStyle(.white)
+                                            .fontWeight(.heavy)
+                                        Spacer()
+                                        Text("\(round(item.wrappedValue.amt))")
+                                            .foregroundStyle(.white)
+                                            .fontWeight(.heavy)
+                                    }
+                                    if (item.wrappedValue.timeact == true) {
+                                        Text("\(item.wrappedValue.time.formatted())")
+                                            .foregroundStyle(.white)
+                                            .fontWeight(.medium)
+                                            .animation(.easeInOut)
+                                        
+                                    }
                                 }
                             }
-                            .padding()
-                            .background(.green)
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
-                            .padding(.horizontal)
-                        }
-                        .buttonStyle(.plain)
-                        .onAppear {
-                            count -= 1
+                            .buttonStyle(.plain)
+                            .onAppear {
+                                count -= 1
+                            }
                         }
                     }
                 }
