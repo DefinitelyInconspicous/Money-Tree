@@ -27,6 +27,8 @@ struct HomePage: View {
                     }
                     .navigationTitle("Home")
                     .navigationBarTitleDisplayMode(.large)
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color.gray.opacity(0.2))
                     
                  
                 }
