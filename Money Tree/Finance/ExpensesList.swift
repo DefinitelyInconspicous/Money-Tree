@@ -15,16 +15,6 @@ struct ExpensesList: View {
     var body: some View {
         NavigationStack {
             VStack {
-                NavigationLink(destination: ExpensesList()) {
-                    HStack {
-                        Text("View Expenses")
-                            .font(.headline)
-                            .padding()
-                        Image(systemName: "chevron.right")
-                            .imageScale(.large)
-                            .fontWeight(.heavy)
-                    }
-                }
                 ForEach($expenseList, id: \.id) { item in
                     var count = 3
                     if count != 0 {
