@@ -6,3 +6,7 @@
 //
 
 import Foundation
+import Forever
+
+
+@Forever(wrappedValue: [Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false)], "expenseList") var expenseList: [Expense]
