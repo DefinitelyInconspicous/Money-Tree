@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		CFBEB5192CE197FB0070F1CF /* Forever in Frameworks */ = {isa = PBXBuildFile; productRef = CFBEB5182CE197FB0070F1CF /* Forever */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		8175AEDD2CDF3C5B00F120FE /* Money Tree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Money Tree.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFBEB5192CE197FB0070F1CF /* Forever in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = "Money Tree";
 			packageProductDependencies = (
+				CFBEB5182CE197FB0070F1CF /* Forever */,
 			);
 			productName = "Money Tree";
 			productReference = 8175AEDD2CDF3C5B00F120FE /* Money Tree.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = 8175AED42CDF3C5A00F120FE;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				CFBEB5172CE197FB0070F1CF /* XCRemoteSwiftPackageReference "Forever" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 8175AEDE2CDF3C5B00F120FE /* Products */;
 			projectDirPath = "";
@@ -322,6 +331,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CFBEB5172CE197FB0070F1CF /* XCRemoteSwiftPackageReference "Forever" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jiachenyee/Forever";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CFBEB5182CE197FB0070F1CF /* Forever */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CFBEB5172CE197FB0070F1CF /* XCRemoteSwiftPackageReference "Forever" */;
+			productName = Forever;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8175AED52CDF3C5A00F120FE /* Project object */;
 }
