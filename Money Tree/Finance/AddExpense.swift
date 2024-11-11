@@ -16,6 +16,22 @@ struct AddExpense: View {
         NavigationStack {
             VStack {
                 HStack {
+                    Text(String(total))
+                        .fontWeight(.heavy)
+                        .font(.largeTitle)
+                        .padding()
+                    Spacer()
+                    Button {
+                        
+                    } label: {
+                        Text("Add")
+                            .padding()
+                            .fontWeight(.heavy)
+                    }
+                    .buttonStyle(BorderedProminentButtonStyle())
+                    .padding()
+                }
+                HStack {
                     HStack {
                         Spacer()
                         Picker("Category", selection: $selCat) {
@@ -30,7 +46,7 @@ struct AddExpense: View {
                         Spacer()
                     }
                     .accentColor(.black)
-                    .fontWeight(.heavy)
+                    .fontWeight(.medium)
                     .background(.green)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .padding()
@@ -41,6 +57,12 @@ struct AddExpense: View {
                         
                     }
                 }
+                VStack {
+                    HStack {
+                        
+                    }
+                }
+                Spacer()
             }
             .navigationTitle("Add Expense")
             .navigationBarTitleDisplayMode(.inline)
