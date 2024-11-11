@@ -12,6 +12,7 @@ import Forever
 
 struct ExpensesList: View {
     @Forever(wrappedValue: [Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false)], "expenseList") var expenseList: [Expense]
+    @State var expenseAdd = false
     var body: some View {
         NavigationStack {
             VStack {
@@ -57,7 +58,7 @@ struct ExpensesList: View {
             .toolbar {
                 ToolbarItem() {
                     Button {
-                        
+                        expenseAdd = true
                     } label: {
                         Image(systemName: "plus")
                             .imageScale(.large)
@@ -65,6 +66,9 @@ struct ExpensesList: View {
                     }
                 }
             }
+        }
+        .sheet(isPresented: $expenseAdd) {
+            AddExpense()
         }
     }
 }

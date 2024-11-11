@@ -16,7 +16,15 @@ struct Expense: Identifiable, Decodable, Encodable {
     var timeact: Bool
 }
 
+struct data: Identifiable, Decodable, Encodable {
+    var id = UUID()
+    var x: Double
+    var y: Double
+}
+
 struct FinanceHome: View {
+    @Forever(wrappedValue: [data(x: 1, y: 0),data(x: 2, y: 0),data(x: 3, y: 0),data(x: 4, y: 0),data(x: 5, y: 0),data(x: 6, y: 0),data(x: 7, y: 0),data(x: 8, y: 0),data(x: 9, y: 0),data(x: 10, y: 0),data(x: 11, y: 0),data(x: 12, y: 0)], "TimelineGraph") var timelineGraph: [data]
+    
     @Forever(wrappedValue: [Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false)], "expenseList") var expenseList: [Expense]
     var body: some View {
         NavigationStack {
