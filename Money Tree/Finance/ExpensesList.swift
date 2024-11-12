@@ -39,7 +39,7 @@ struct ExpensesList: View {
                                             .fontWeight(.medium)
                                             .animation(.easeInOut)
                                         
-                                    }
+                                    } //unskibidi not js!!!!! kys!!
                                 }
                             }
                             .buttonStyle(.plain)
@@ -74,3 +74,4 @@ struct ExpensesList: View {
 #Preview {
     ExpensesList()
 }
+// avyan i hate you kys
