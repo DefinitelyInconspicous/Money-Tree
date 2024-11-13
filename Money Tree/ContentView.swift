@@ -21,7 +21,7 @@ struct ContentView: View {
                 .tabItem{
                     Label("Finance", systemImage: "dollarsign")
                 }
-            ExpensesList()
+            QuestsView()
                 .tabItem{
                     Label("Quest", systemImage: "book.closed.fill")
                 }
