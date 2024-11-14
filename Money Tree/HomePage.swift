@@ -27,11 +27,22 @@ struct HomePage: View {
                     }
                     .navigationTitle("Home")
                     .navigationBarTitleDisplayMode(.large)
+                    NavigationLink(destination: AddExpense()) {
+                        Text("Add expense")
+                            .font(.headline)
+                            .foregroundColor(.blue)
+                            .padding(.top, 10)
+                            .offset(x: 100, y:40)
+                            Image(systemName: "chevron.right")
+                                .imageScale(.large)
+                                .fontWeight(.heavy)
+                                .offset(x: 100, y:45)
+                    }
                     ZStack {
                         RoundedRectangle(cornerRadius: 15)
                             .frame(width: 380, height: 430)
                             .foregroundColor(Color.gray.opacity(0.4))
-                        Text("Your Tree")
+                        Text("My Tree")
                             .font(.title2)
                             .offset(y:-170)
                             .bold()
@@ -54,14 +65,14 @@ struct HomePage: View {
                         }.offset(y:130)
                         
                         
-                    }.offset(y:-50)
+                    }.offset(y:-35)
                     
                     
                 }
                 Text("Active Quests")
                     .font(.largeTitle)
                     .bold()
-                    .offset(x:-70, y:-140)
+                    .offset(x:-70, y:-130)
                 HStack{
                     NavigationLink(destination: QuestsView()) {
                     Text("View in Quests")
