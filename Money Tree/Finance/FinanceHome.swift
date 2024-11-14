@@ -4,7 +4,6 @@
 //
 //  Created by Avyan Mehra on 11/11/24.
 //
-
 import SwiftUI
 import Charts
 import Forever
@@ -93,7 +92,7 @@ struct FinanceHome: View {
                                             .foregroundColor(.white)
                                             .fontWeight(.heavy)
                                         Spacer()
-                                        Text(String(format: "%.2f SGD", item.amt))
+                                        Text(String(format: "%.2f", item.amt))
                                             .foregroundColor(.white)
                                             .fontWeight(.heavy)
                                     }
