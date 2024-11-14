@@ -10,32 +10,35 @@ import Forever
 
 struct AddExpense: View {
     @Forever("Categories") var categories: [String] = ["Food", "Clothes", "Utilities", "Shopping"]
-    @Forever("expenseList") var expenseList: [Expense] = [Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false)]
+    @Binding var expenseList: [Expense]
     @State var selCat = "Food"
     @State var amount = ""
     @State var date: Date = .now
+    @Environment(\.dismiss) var dismiss
+
     var body: some View {
        NavigationStack {
             List {
                 Section {
-//                    Picker("Category", selection: $selCat) {
-//                        ForEach(categories, id: \.self) { cat in
-//                            HStack{
-//                                Text(cat)
-//                            }
-//                        }
-//                    }
-//                    TextField("Amount", text: $amount)
-//                        .keyboardType(.numberPad)
-//                        .padding()
+                    Picker("Category", selection: $selCat) {
+                        ForEach(categories, id: \.self) { cat in
+                            HStack{
+                                Text(cat)
+                            }
+                        }
+                    }
+                    TextField("Amount", text: $amount)
+                        .keyboardType(.decimalPad)
+                        .padding()
                     
                     DatePicker("Date", selection: $date)
-//                    Button {
-//                        expenseList.append(Expense(amt: Double(amount)!, time: date, cat: selCat, timeact: false))
-//                    } label: {
-//                        Text("Add Expense")
-//                    }
-//                    
+                    Button {
+                        expenseList.append(Expense(amt: Double(amount) ?? 0, time: date, cat: selCat, timeact: false))
+                        dismiss()
+                    } label: {
+                        Text("Add Expense")
+                    }
+                    
                     
                 }
                 
@@ -49,5 +52,5 @@ struct AddExpense: View {
 }
 
 #Preview {
-    AddExpense()
+    AddExpense(expenseList: .constant([Expense(amt: 0, time: .now, cat: "", timeact: false)]))
 }
