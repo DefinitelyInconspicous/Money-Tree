@@ -27,7 +27,7 @@ struct HomePage: View {
                     }
                     .navigationTitle("Home")
                     .navigationBarTitleDisplayMode(.large)
-                    NavigationLink(destination: AddExpense()) {
+                    NavigationLink(destination: QuestsView()) {
                         Text("Add expense")
                             .font(.headline)
                             .foregroundColor(.blue)
