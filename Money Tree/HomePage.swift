@@ -29,36 +29,51 @@ struct HomePage: View {
                     .navigationBarTitleDisplayMode(.large)
                     ZStack {
                         RoundedRectangle(cornerRadius: 15)
-                            .frame(width: 380, height: 400)
+                            .frame(width: 380, height: 430)
                             .foregroundColor(Color.gray.opacity(0.4))
-                        
+                        Text("Your Tree")
+                            .font(.title2)
+                            .offset(y:-170)
+                            .bold()
                         ZStack{
-                            Image("blackpot")
+                            Image("Starting Pot")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 600, height: 600)
                             
-                            Image("level1plant")
+                            Image("plant")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 600, height: 600)
                             
-                            Image("brownsoil")
+                            Image("soil1")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 600, height: 600)
                             
-                        }.offset(y:100)
+                        }.offset(y:130)
                         
                         
-                    }.offset(y:-80)
+                    }.offset(y:-50)
                     
                     
                 }
                 Text("Active Quests")
                     .font(.largeTitle)
                     .bold()
-                    .offset(x:-70, y:-170)
+                    .offset(x:-70, y:-140)
+                HStack{
+                    NavigationLink(destination: QuestsView()) {
+                    Text("View in Quests")
+                        .font(.headline)
+                        .foregroundColor(.blue)
+                        .padding(.top, 10)
+                        Image(systemName: "chevron.right")
+                            .imageScale(.large)
+                            .fontWeight(.heavy)
+                            .offset(y:5)
+                }
+                }.offset(y:-30)
                 ZStack{
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color.green)
@@ -84,7 +99,7 @@ struct HomePage: View {
                         
                         
                     }
-                }.offset(y:-150)
+                }.offset(y:-180)
             }
             
             
