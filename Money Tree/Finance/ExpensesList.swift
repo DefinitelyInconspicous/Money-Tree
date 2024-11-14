@@ -8,54 +8,47 @@
 import SwiftUI
 import Forever
 
-
-
 struct ExpensesList: View {
-    @Forever(wrappedValue: [Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false)], "expenseList") var expenseList: [Expense]
-    @State var expenseAdd = false
+    @Binding var expenseList: [Expense]
+    
+    @State private var expenseAdd = false
+    
     var body: some View {
         NavigationStack {
             List {
                 ForEach($expenseList, id: \.id) { item in
-                    var count = 3
-                    if count != 0 {
-                        HStack {
-                            Button {
-                                item.wrappedValue.timeact.toggle()
-                            } label: {
-                                VStack {
-                                    HStack {
-                                        Text(item.wrappedValue.cat)
-                                            .foregroundStyle(.white)
-                                            .fontWeight(.heavy)
-                                        Spacer()
-                                        Text("\(round(item.wrappedValue.amt))")
-                                            .foregroundStyle(.white)
-                                            .fontWeight(.heavy)
-                                    }
-                                    if (item.wrappedValue.timeact == true) {
-                                        Text("\(item.wrappedValue.time.formatted())")
-                                            .foregroundStyle(.white)
-                                            .fontWeight(.medium)
-                                            .animation(.easeInOut)
-                                        
-                                    } //unskibidi not js!!!!! kys!!
+                    HStack {
+                        Button {
+                            item.wrappedValue.timeact.toggle()
+                        } label: {
+                            VStack(alignment: .leading) {
+                                HStack {
+                                    Text(item.wrappedValue.cat)
+                                        .foregroundColor(.primary)
+                                        .fontWeight(.heavy)
+                                    Text(item.wrappedValue.time.formatted())
+                                        .foregroundColor(.gray)
+                                        .fontWeight(.medium)
+                                        .font(.caption)
+                                        .animation(.easeInOut, value: item.wrappedValue.timeact)
+                                    Spacer()
+                                    Text("\(round(item.wrappedValue.amt))")
+                                        .foregroundColor(.primary)
+                                        .fontWeight(.heavy)
                                 }
-                            }
-                            .buttonStyle(.plain)
-                            .onAppear {
-                                count -= 1
+                                    
+                                
                             }
                         }
+                        .buttonStyle(.plain)
                     }
                 }
-                
-                
+                .onDelete(perform: deleteItems)
             }
             .navigationTitle("Expenses")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
-                ToolbarItem() {
+                ToolbarItem {
                     Button {
                         expenseAdd = true
                     } label: {
@@ -67,11 +60,19 @@ struct ExpensesList: View {
             }
         }
         .sheet(isPresented: $expenseAdd) {
-            AddExpense()
+            AddExpense(expenseList: $expenseList)
         }
     }
+    
+     func deleteItems(at offsets: IndexSet) {
+        expenseList.remove(atOffsets: offsets)
+    }
 }
+
 #Preview {
-    ExpensesList()
+    ExpensesList(expenseList: .constant([
+        Expense(amt: 50, time: .now, cat: "Food", timeact: false),
+        Expense(amt: 75, time: .now, cat: "Transport", timeact: true),
+        Expense(amt: 20, time: .now, cat: "Entertainment", timeact: false)
+    ]))
 }
-// avyan i hate you kys
