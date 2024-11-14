@@ -10,41 +10,40 @@ import Forever
 
 struct AddExpense: View {
     @Forever("Categories") var categories: [String] = ["Food", "Clothes", "Utilities", "Shopping"]
+    @Forever("expenseList") var expenseList: [Expense] = [Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false)]
     @State var selCat = "Food"
-    @State var amount = "0"
+    @State var amount = ""
     @State var date: Date = .now
     var body: some View {
-        NavigationStack {
-            Form {
-                Picker("Category", selection: $selCat) {
-                    ForEach(categories, id: \.self) { cat in
-                        HStack{
-                            Text(cat)
-                        }
-                    }
+       NavigationStack {
+            List {
+                Section {
+//                    Picker("Category", selection: $selCat) {
+//                        ForEach(categories, id: \.self) { cat in
+//                            HStack{
+//                                Text(cat)
+//                            }
+//                        }
+//                    }
+//                    TextField("Amount", text: $amount)
+//                        .keyboardType(.numberPad)
+//                        .padding()
+                    
+                    DatePicker("Date", selection: $date)
+//                    Button {
+//                        expenseList.append(Expense(amt: Double(amount)!, time: date, cat: selCat, timeact: false))
+//                    } label: {
+//                        Text("Add Expense")
+//                    }
+//                    
+                    
                 }
-                TextField("Amount", text: $amount)
-                    .keyboardType(.numberPad)
-                    .padding()
-                
-                DatePicker("Date", selection: $date)
-                HStack {
-                    Spacer()
-                    Button {
-                        
-                    } label: {
-                        Text("Add Expense")
-                    }
-                    .buttonStyle(BorderedProminentButtonStyle())
-                    Spacer()
-                }
-                
-                
                 
             }
             
             .navigationTitle("Add Expense")
             .navigationBarTitleDisplayMode(.inline)
+            
         }
     }
 }

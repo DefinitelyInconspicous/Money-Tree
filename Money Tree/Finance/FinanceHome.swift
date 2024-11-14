@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Charts
 import Forever
 
 struct Expense: Identifiable, Decodable, Encodable {
@@ -16,18 +17,49 @@ struct Expense: Identifiable, Decodable, Encodable {
     var timeact: Bool
 }
 
-struct data: Identifiable, Decodable, Encodable {
+struct MonthData: Identifiable, Decodable, Encodable {
     var id = UUID()
-    var x: Double
+    var x: String
     var y: Double
 }
 
 struct FinanceHome: View {
-    @Forever(wrappedValue: [data(x: 1, y: 0),data(x: 2, y: 0),data(x: 3, y: 0),data(x: 4, y: 0),data(x: 5, y: 0),data(x: 6, y: 0),data(x: 7, y: 0),data(x: 8, y: 0),data(x: 9, y: 0),data(x: 10, y: 0),data(x: 11, y: 0),data(x: 12, y: 0)], "TimelineGraph") var timelineGraph: [data]
+    @Forever("TimelineGraph") var timelineGraph: [MonthData] = [MonthData(x: "Jan", y: 0),MonthData(x: "Feb", y: 0),MonthData(x: "Mar", y: 0),MonthData(x: "Apr", y: 0),MonthData(x: "May", y: 0),MonthData(x: "Jun", y: 0),MonthData(x: "Jul", y: 0),MonthData(x: "Aug", y: 0),MonthData(x: "Sep", y: 0),MonthData(x: "Oct", y: 0),MonthData(x: "Nov", y: 0),MonthData(x: "Dec", y: 0)]
     
-    @Forever(wrappedValue: [Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false)], "expenseList") var expenseList: [Expense]
+    @Forever("expenseList") var expenseList: [Expense] = [Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false)]
+    @State var expenseAdd = false
     var body: some View {
         NavigationStack {
+            Button {
+                
+            } label: {
+                VStack {
+                    HStack {
+                        Text("Timeline")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                        Image(systemName: "chevron.right")
+                            .fontWeight(.heavy)
+                    }
+                    Chart {
+                        ForEach(timelineGraph, id: \.id) { item in
+                            LineMark(x: .value("Month", item.x), y: .value("Expenses", item.y))
+                        }
+                    }
+                }
+            }
+                .frame(width: 300, height: 220 , alignment: .center)
+                .padding()
+                .padding()
+                .buttonStyle(.plain)
+                .background(
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color(.systemGray4))
+                        .shadow(radius: 10)
+                )
+                
+                .padding(.horizontal)
+            
             Spacer()
             VStack {
                 NavigationLink(destination: ExpensesList()) {
@@ -40,45 +72,62 @@ struct FinanceHome: View {
                             .fontWeight(.heavy)
                     }
                 }
-                ForEach($expenseList, id: \.id) { item in
-                    var count = 3
-                    if count != 0 {
-                        Button {
-                            item.wrappedValue.timeact.toggle()
-                        } label: {
-                            VStack {
-                                HStack {
-                                    Text(item.wrappedValue.cat)
-                                        .foregroundStyle(.white)
-                                        .fontWeight(.heavy)
-                                    Spacer()
-                                    Text("\(round(item.wrappedValue.amt))")
-                                        .foregroundStyle(.white)
-                                        .fontWeight(.heavy)
+                if expenseList.count >= 3 {
+                    ForEach($expenseList, id: \.id) { item in
+                        var count = 3
+                        if count != 0 {
+                            Button {
+                                item.wrappedValue.timeact.toggle()
+                            } label: {
+                                VStack {
+                                    HStack {
+                                        Text(item.wrappedValue.cat)
+                                            .foregroundStyle(.white)
+                                            .fontWeight(.heavy)
+                                        Spacer()
+                                        Text("\(round(item.wrappedValue.amt * 100) / 100)")
+                                            .foregroundStyle(.white)
+                                            .fontWeight(.heavy)
+                                    }
+                                    if (item.wrappedValue.timeact == true) {
+                                        Text("\(item.wrappedValue.time.formatted())")
+                                            .foregroundStyle(.white)
+                                            .fontWeight(.medium)
+                                        
+                                    }
                                 }
-                                if (item.wrappedValue.timeact == true) {
-                                    Text("\(item.wrappedValue.time.formatted())")
-                                        .foregroundStyle(.white)
-                                        .fontWeight(.medium)
-                                    
-                                }
+                                .padding()
+                                .background(.green)
+                                .clipShape(RoundedRectangle(cornerRadius: 20))
+                                .padding(.horizontal)
                             }
-                            .padding()
-                            .background(.green)
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
-                            .padding(.horizontal)
-                        }
-                        .buttonStyle(.plain)
-                        .onAppear {
-                            count -= 1
+                            .buttonStyle(.plain)
+                            .onAppear {
+                                count -= 1
+                            }
                         }
                     }
                 }
-                
             }
             .navigationTitle("Finance")
             .navigationBarTitleDisplayMode(.large)
+            .toolbar {
+                ToolbarItem() {
+                    Button {
+                        expenseAdd = true
+                    } label: {
+                        Image(systemName: "plus")
+                            .imageScale(.large)
+                            .fontWeight(.heavy)
+                    }
+                }
+            }
+            
         }
+        .sheet(isPresented: $expenseAdd) {
+            AddExpense()
+        }
+        
     }
 }
 
