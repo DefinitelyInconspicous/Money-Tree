@@ -33,41 +33,42 @@ struct HomePage: View {
                             .foregroundColor(.blue)
                             .padding(.top, 10)
                             .offset(x: 100, y:40)
-                            Image(systemName: "chevron.right")
-                                .imageScale(.large)
-                                .fontWeight(.heavy)
-                                .offset(x: 100, y:45)
+                        Image(systemName: "chevron.right")
+                            .imageScale(.large)
+                            .fontWeight(.heavy)
+                            .offset(x: 100, y:45)
                     }
                     ZStack {
-                        RoundedRectangle(cornerRadius: 15)
-                            .frame(width: 380, height: 430)
-                            .foregroundColor(Color.gray.opacity(0.4))
-                        Text("My Tree")
-                            .font(.title2)
-                            .offset(y:-170)
-                            .bold()
-                        ZStack{
-                            Image("Starting Pot")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 600, height: 600)
-                            
-                            Image("plant")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 600, height: 600)
-                            
-                            Image("soil1")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 600, height: 600)
-                            
-                        }.offset(y:130)
-                        
-                        
-                    }.offset(y:-35)
-                    
-                    
+                        NavigationLink(destination: CustomisationView()) {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 15)
+                                    .frame(width: 380, height: 430)
+                                    .foregroundColor(Color.gray.opacity(0.4))
+                                Text("My Tree")
+                                    .font(.title2)
+                                    .offset(y: -170)
+                                    .bold()
+                                ZStack {
+                                    Image("Starting Pot")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 600, height: 600)
+                                    Image("plant")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 600, height: 600)
+                                    Image("soil1")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 600, height: 600)
+                                }
+                                .offset(y: 130)
+                            }
+                            .buttonStyle(PlainButtonStyle()) 
+                        }
+                        .offset(y: -35)
+                    }
+
                 }
                 Text("Active Quests")
                     .font(.largeTitle)
