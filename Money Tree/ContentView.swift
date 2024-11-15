@@ -7,12 +7,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var activeQuests:[Quest] = []
+    
     var body: some View {
-        VStack {
-            
-        }
         TabView{
-            HomePage()
+            HomePage(activeQuests: $activeQuests)
                 .tabItem{
                     Label("Home", systemImage: "house.fill")
                 }
@@ -21,7 +21,7 @@ struct ContentView: View {
                 .tabItem{
                     Label("Finance", systemImage: "dollarsign")
                 }
-            QuestsView()
+            QuestsView(activeQuests: $activeQuests)
                 .tabItem{
                     Label("Quest", systemImage: "book.closed.fill")
                 }
