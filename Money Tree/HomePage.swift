@@ -10,7 +10,8 @@ import SwiftUI
 struct HomePage: View {
     @State var stars: Int = 0  // Set initial star count here
     
-    @Binding var activeQuests: [Quest]
+    @Binding var activeQuests: [questData]
+    @Binding var TabViewSelection: Int
     
     var body: some View {
         VStack {
@@ -82,7 +83,9 @@ struct HomePage: View {
                         .offset(x: -70, y: -130)
                     
                     HStack {
-                        NavigationLink(destination: QuestsView(activeQuests: $activeQuests)) {
+                        Button{
+                            TabViewSelection = 3
+                        } label: {
                             Text("View in Quests")
                                 .font(.headline)
                                 .foregroundColor(.blue)
@@ -102,13 +105,13 @@ struct HomePage: View {
                             .fill(Color.green)
                             .frame(width: 300, height: 100)
                         VStack {
-                            Text("Do not spend more than $30 on food today")
+                            Text(activeQuests[0].quest)
                                 .frame(width: 270)
                                 .foregroundColor(Color.white)
                                 .bold()
                             
                             HStack {
-                                Text("1")
+                                Text(String(activeQuests[0].starNum))
                                     .font(.system(size: 20))
                                     .padding(.top, 10)
                                     .foregroundColor(Color.white)
@@ -130,5 +133,5 @@ struct HomePage: View {
 }
 
 #Preview {
-    HomePage(activeQuests: .constant([]))
+    HomePage(activeQuests: .constant([]), TabViewSelection: .constant(0))
 }

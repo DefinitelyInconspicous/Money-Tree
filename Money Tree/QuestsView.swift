@@ -7,38 +7,39 @@
 
 import SwiftUI
 
-struct Quest{
+struct questData{
     let id = UUID()
     var quest: String
     var starNum: Int
 }
 
 struct QuestsView: View {
-    @State var Quests: [Quest] = [
-        Quest(quest: "Do not spend more than $30 on food today.", starNum: 1),
-        Quest(quest: "Do not spend more than $30 on food this week.", starNum: 5),
-        Quest(quest: "Don’t online shop this week", starNum: 1),
-        Quest(quest: "Spend less than $60 on clothes this month.", starNum: 1),
-        Quest(quest: "Limit takeout expenses to $20 this weekend.", starNum: 2),
-        Quest(quest: "Spend under $50 on groceries this week.", starNum: 3),
-        Quest(quest: "No new clothing purchases this month.", starNum: 2),
-        Quest(quest: "Spend less than $100 on entertainment this month.", starNum: 4),
-        Quest(quest: "No tech gadgets purchases this week.", starNum: 3),
-        Quest(quest: "Do not buy any fast food this week.", starNum: 3),
-        Quest(quest: "Spend under $30 on transportation this weekend.", starNum: 2),
-        Quest(quest: "Limit online shopping expenses to $50 this week.", starNum: 3),
-        Quest(quest: "Spend less than $20 on snacks this week.", starNum: 2),
-        Quest(quest: "Do not buy any non-essential items today.", starNum: 2),
-        Quest(quest: "Spend under $15 on hobbies this weekend.", starNum: 3),
-        Quest(quest: "Limit grocery shopping to once this week.", starNum: 4),
-        Quest(quest: "No spending on streaming services this week.", starNum: 2),
-        Quest(quest: "Only buy essentials during the next 3 days.", starNum: 3),
-        Quest(quest: "Do not buy drinks at bars this weekend.", starNum: 4)
+    @State var Quests: [questData] = [
+        questData(quest: "Do not spend more than $30 on food today.", starNum: 1),
+        questData(quest: "Do not spend more than $30 on food this week.", starNum: 5),
+        questData(quest: "Don’t online shop this week", starNum: 1),
+        questData(quest: "Spend less than $60 on clothes this month.", starNum: 1),
+        questData(quest: "Limit takeout expenses to $20 this weekend.", starNum: 2),
+        questData(quest: "Spend under $50 on groceries this week.", starNum: 3),
+        questData(quest: "No new clothing purchases this month.", starNum: 2),
+        questData(quest: "Spend less than $100 on entertainment this month.", starNum: 4),
+        questData(quest: "No tech gadgets purchases this week.", starNum: 3),
+        questData(quest: "Do not buy any fast food this week.", starNum: 3),
+        questData(quest: "Spend under $30 on transportation this weekend.", starNum: 2),
+        questData(quest: "Limit online shopping expenses to $50 this week.", starNum: 3),
+        questData(quest: "Spend less than $20 on snacks this week.", starNum: 2),
+        questData(quest: "Do not buy any non-essential items today.", starNum: 2),
+        questData(quest: "Spend under $15 on hobbies this weekend.", starNum: 3),
+        questData(quest: "Limit grocery shopping to once this week.", starNum: 4),
+        questData(quest: "No spending on streaming services this week.", starNum: 2),
+        questData(quest: "Only buy essentials during the next 3 days.", starNum: 3),
+        questData(quest: "Do not buy drinks at bars this weekend.", starNum: 4)
     ]
     
+    @State var questLimitAlert = false
     
-    @Binding var activeQuests:[Quest]
-    @State var availableQuests:[Quest] = []
+    @Binding var activeQuests:[questData]
+    @State var availableQuests:[questData] = []
     
     var body: some View {
         NavigationStack {
@@ -98,9 +99,13 @@ struct QuestsView: View {
                                     
                                     Button("Start") {
                                         withAnimation{
-                                            availableQuests.remove(at: availableQuests.firstIndex(where: {$0.quest == quest.quest})!)
-                                            activeQuests.append(Quest(quest: quest.quest, starNum: quest.starNum))
-                                            updateAvailQ()
+                                            if(activeQuests.count < 4){
+                                                availableQuests.remove(at: availableQuests.firstIndex(where: {$0.quest == quest.quest})!)
+                                                activeQuests.append(questData(quest: quest.quest, starNum: quest.starNum))
+                                                updateAvailQ()
+                                            }else{
+                                                questLimitAlert = true
+                                            }
                                         }
                                     }
                                     .foregroundColor(Color.white)
@@ -113,6 +118,11 @@ struct QuestsView: View {
                             }
                         }
                     }
+                    .alert("Quest Limit", isPresented: $questLimitAlert){
+                        Button("Ok"){}
+                    } message: {
+                        Text("Complete your active quests to start new quests!")
+                    }
                 }
                 
                 
@@ -124,9 +134,9 @@ struct QuestsView: View {
         }
     }
     func updateAvailQ(){
-        while(availableQuests.count < 3){
+        while(availableQuests.count < 5){
             var generating = true
-            var randomQuest = Quest(quest: "", starNum: 0)
+            var randomQuest = questData(quest: "", starNum: 0)
             while(generating){
                 randomQuest = Quests[Int.random(in: 0..<Quests.count)]
                 
