@@ -47,94 +47,102 @@ struct FinanceHome: View {
     @State private var showAddCategorySheet = false
 
     var body: some View {
-        NavigationStack {
-            VStack {
-                Picker("Select Graph", selection: $selectedGraph) {
-                    Text("Yearly").tag(0)
-                    Text("Monthly").tag(1)
-                    Text("Categorised").tag(2)
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                .padding()
-
-                if selectedGraph == 0 {
-                    LineChartView()
-                } else if selectedGraph == 1 {
-                    BarChartView()
-                } else {
-                    PieChartView()
-                }
-                
-                Spacer()
-                
-                // View expenses button and list
-                VStack {
-                    NavigationLink(destination: ExpensesList(expenseList: $expenseList)) {
-                        HStack {
-                            Text("View Expenses")
-                                .font(.headline)
-                                .padding()
-                            Image(systemName: "chevron.right")
-                                .imageScale(.large)
-                                .fontWeight(.heavy)
-                        }
+            NavigationStack {
+                VStack(spacing: 20) {
+                    Picker("Select Graph", selection: $selectedGraph) {
+                        Text("Yearly").tag(0)
+                        Text("Monthly").tag(1)
+                        Text("Categorised").tag(2)
                     }
-                    if expenseList.count >= 3 {
-                        ForEach(expenseList.suffix(3)) { item in
-                            Button {
-                                if let index = expenseList.firstIndex(where: { $0.id == item.id }) {
-                                    expenseList[index].timeact.toggle()
-                                }
-                            } label: {
-                                VStack {
-                                    HStack {
-                                        Text(item.cat)
-                                            .foregroundColor(.white)
-                                            .fontWeight(.heavy)
-                                        Spacer()
-                                        Text(String(format: "%.2f", item.amt))
-                                            .foregroundColor(.white)
-                                            .fontWeight(.heavy)
-                                    }
-                                    if item.timeact {
-                                        Text(item.time.formatted())
-                                            .foregroundColor(.white)
-                                            .fontWeight(.medium)
-                                    }
-                                }
-                                .padding()
-                                .background(Color.green)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .padding(.horizontal)
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding(.horizontal)
+                    .padding(.top, 20)
+                    
+                    if selectedGraph == 0 {
+                        LineChartView()
+                    } else if selectedGraph == 1 {
+                        BarChartView()
+                    } else {
+                        PieChartView()
+                    }
+                    
+                    Spacer()
+                    
+                    // View expenses button and list
+                    VStack {
+                        NavigationLink(destination: ExpensesList(expenseList: $expenseList)) {
+                            HStack {
+                                Text("View Expenses")
+                                    .font(.headline)
+                                    .padding()
+                                    .foregroundColor(.primary)
+                                Image(systemName: "chevron.right")
+                                    .imageScale(.large)
+                                    .fontWeight(.heavy)
+                                    .foregroundColor(.primary)
                             }
-                            .buttonStyle(.plain)
+                            .background(Color.blue.opacity(0.1))
+                            .cornerRadius(15)
+                        }
+                        .padding(.top)
+                        
+                        if expenseList.count >= 3 {
+                            ForEach(expenseList.suffix(2)) { item in
+                                Button {
+                                    if let index = expenseList.firstIndex(where: { $0.id == item.id }) {
+                                        expenseList[index].timeact.toggle()
+                                    }
+                                } label: {
+                                    VStack {
+                                        HStack {
+                                            Text(item.cat)
+                                                .foregroundColor(.white)
+                                                .fontWeight(.heavy)
+                                            Spacer()
+                                            Text("$" + String(format: "%.2f", item.amt))
+                                                .foregroundColor(.white)
+                                                .fontWeight(.heavy)
+                                        }
+                                        if item.timeact {
+                                            Text(item.time.formatted())
+                                                .foregroundColor(.white)
+                                                .fontWeight(.medium)
+                                        }
+                                    }
+                                    .padding()
+                                    .background(Color.green)
+                                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                                    .padding(.horizontal)
+                                }
+                                .buttonStyle(.plain)
+                            }
                         }
                     }
-                }
-                .navigationTitle("Finance")
-                .navigationBarTitleDisplayMode(.large)
-                .toolbar {
-                    ToolbarItem() {
-                        Button {
-                            expenseAdd = true
-                        } label: {
-                            Image(systemName: "plus")
-                                .imageScale(.large)
-                                .fontWeight(.heavy)
+                    .navigationTitle("Finance")
+                    .navigationBarTitleDisplayMode(.large)
+                    .toolbar {
+                        ToolbarItem() {
+                            Button {
+                                expenseAdd = true
+                            } label: {
+                                Image(systemName: "plus")
+                                    .imageScale(.large)
+                                    .fontWeight(.heavy)
+                            }
                         }
-                    }
-                    ToolbarItem() {
-                        Button {
-                            showBudgetSheet = true
-                        } label: {
-                            Image(systemName: "pencil")
-                                .imageScale(.large)
-                                .fontWeight(.heavy)
+                        ToolbarItem() {
+                            Button {
+                                showBudgetSheet = true
+                            } label: {
+                                Image(systemName: "pencil")
+                                    .imageScale(.large)
+                                    .fontWeight(.heavy)
+                            }
                         }
                     }
                 }
             }
-        }
+        
         .sheet(isPresented: $expenseAdd) {
             AddExpense(expenseList: $expenseList)
         }
@@ -177,6 +185,7 @@ struct BudgetSheetView: View {
                     ForEach(categoryBudgets) { budget in
                         HStack {
                             Text(budget.cat)
+                                .fontWeight(.semibold)
                             Spacer()
                             TextField("Budget", value: .constant(budget.budget), formatter: NumberFormatter())
                                 .keyboardType(.decimalPad)
@@ -185,10 +194,12 @@ struct BudgetSheetView: View {
                     }
                     .onDelete(perform: deleteCategory)
                 }
-
+                .listStyle(PlainListStyle())
+                
                 Button("Add Category") {
                     showAddCategorySheet.toggle()
                 }
+                .buttonStyle(.borderedProminent)
                 .padding()
             }
             .navigationTitle("Adjust Budget")
@@ -197,21 +208,14 @@ struct BudgetSheetView: View {
             })
             .sheet(isPresented: $showAddCategorySheet) {
                 AddCategorySheet(newCategoryName: $newCategoryName, newCategoryBudget: $newCategoryBudget, categoryBudgets: $categoryBudgets)
-                    .onDisappear {
-                        categoryBudgets = categoryBudgets
-                    }
             }
         }
     }
 
-    // Function to handle deletion of category
     private func deleteCategory(at offsets: IndexSet) {
         categoryBudgets.remove(atOffsets: offsets)
     }
 }
-
-
-
 
 struct AddCategorySheet: View {
     @Binding var newCategoryName: String
@@ -233,20 +237,16 @@ struct AddCategorySheet: View {
                     newCategoryName = ""
                     newCategoryBudget = 0.0
                 }
-                .disabled(newCategoryName.isEmpty || newCategoryBudget <= 0)
+                .buttonStyle(.bordered)
             }
-            .navigationTitle("Add New Category")
-            .navigationBarItems(trailing: Button("Done") {
-                // Save the category addition and close
-                let newCategory = CategoryBudget(cat: newCategoryName, budget: newCategoryBudget)
-                categoryBudgets.append(newCategory)
+            .navigationTitle("Add Category")
+            .navigationBarItems(trailing: Button("Cancel") {
                 newCategoryName = ""
                 newCategoryBudget = 0.0
             })
         }
     }
 }
-
 
 
 struct LineChartView: View {
@@ -319,8 +319,9 @@ struct PieChartView: View {
                     VStack {
                         Text(entry.label)
                             .font(.caption)
+                            .fontWeight(.semibold)
                             .foregroundColor(.black)
-                        Text(String(format: "%.2f SGD", entry.value))
+                        Text(String(format: "$ %.2f", entry.value))
                             .font(.footnote)
                             .foregroundColor(.gray)
                     }

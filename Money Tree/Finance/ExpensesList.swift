@@ -32,7 +32,7 @@ struct ExpensesList: View {
                                         .font(.caption)
                                         .animation(.easeInOut, value: item.wrappedValue.timeact)
                                     Spacer()
-                                    Text("\(round(item.wrappedValue.amt))")
+                                    Text("$\(String(format: "%.2f", item.wrappedValue.amt))")
                                         .foregroundColor(.primary)
                                         .fontWeight(.heavy)
                                 }

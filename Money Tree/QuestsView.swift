@@ -132,6 +132,3 @@ struct CreateAvailableQuest: View {
     }
 }
 
-
-
-

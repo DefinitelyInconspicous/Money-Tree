@@ -14,40 +14,92 @@ struct AddExpense: View {
     @State var selCat = "Food"
     @State var amount = ""
     @State var date: Date = .now
+    @State private var errorMessage: String? = nil
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
-       NavigationStack {
-            List {
-                Section {
+        NavigationStack {
+            Form {
+                Section(header: Text("Category").font(.headline)) {
                     Picker("Category", selection: $selCat) {
                         ForEach(categories, id: \.self) { cat in
-                            HStack{
-                                Text(cat)
-                            }
+                            Text(cat).tag(cat)
                         }
                     }
-                    TextField("Amount", text: $amount)
-                        .keyboardType(.decimalPad)
-                        .padding()
-                    
-                    DatePicker("Date", selection: $date)
-                    Button {
-                        expenseList.append(Expense(amt: Double(amount) ?? 0, time: date, cat: selCat, timeact: false))
-                        dismiss()
-                    } label: {
-                        Text("Add Expense")
-                    }
-                    
-                    
+                    .pickerStyle(MenuPickerStyle())
                 }
-                
+
+                Section(header: Text("Amount").font(.headline)) {
+                    TextField("Enter amount", text: $amount)
+                        .keyboardType(.decimalPad)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.vertical, 10)
+                    
+                    if let errorMessage = errorMessage {
+                        Text(errorMessage)
+                            .font(.caption)
+                            .foregroundColor(.red)
+                            .padding(.top, 5)
+                    }
+                }
+
+                Section(header: Text("Date").font(.headline)) {
+                    DatePicker("Select date", selection: $date)
+                        .datePickerStyle(DefaultDatePickerStyle())
+                        .padding(.vertical, 10)
+                    
+                    if date > Date() {
+                        Text("The date cannot be in the future.")
+                            .font(.caption)
+                            .foregroundColor(.red)
+                            .padding(.top, 5)
+                    }
+                }
+
+                Section {
+                    Button(action: {
+                        errorMessage = nil
+                        
+                        if let expenseAmount = Double(amount), expenseAmount > 0, date <= Date() {
+                            expenseList.append(Expense(amt: expenseAmount, time: date, cat: selCat, timeact: false))
+                            dismiss()
+                        } else {
+                            if let expenseAmount = Double(amount), expenseAmount <= 0 {
+                                errorMessage = "Please enter a valid amount greater than 0."
+                            } else if date > Date() {
+                                errorMessage = "The date cannot be in the future."
+                            }
+                        }
+                    }) {
+                        Text("Add Expense")
+                            .fontWeight(.semibold)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .padding()
+                            .background(Color.green)
+                            .opacity(isFormInvalid ? 0.5 : 1)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .padding(.vertical)
+                    }
+                    .disabled(isFormInvalid)
+                }
             }
-            
             .navigationTitle("Add Expense")
             .navigationBarTitleDisplayMode(.inline)
-            
+            .onTapGesture {
+                UIApplication.shared.dismissKeyboard()
+            }
         }
+    }
+
+    private var isFormInvalid: Bool {
+        return amount.isEmpty || Double(amount) == nil || Double(amount) == 0 || date > Date()
+    }
+}
+
+extension UIApplication {
+    func dismissKeyboard() {
+        windows.first(where: { $0.isKeyWindow })?.endEditing(true)
     }
 }
 
