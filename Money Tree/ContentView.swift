@@ -35,7 +35,7 @@ struct ContentView: View {
             
         }
         .onAppear{
-            firstOpened = UserDefaults.standard.bool(forKey: "firstOpened") ?? true
+            firstOpened = UserDefaults.standard.bool(forKey: "firstOpened")
             if firstOpened{
                 UserDefaults.standard.set(Date.now, forKey: "firstOpenedDay")
                 UserDefaults.standard.set(false, forKey: "firstOpened")
