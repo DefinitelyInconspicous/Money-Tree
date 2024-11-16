@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct CustomisationView: View {
-    @Binding var stars: Int  // Binding to reflect the stars from the HomePage
+    @Binding var stars: Int   // Binding to reflect the stars from the HomePage
     @State private var selectedCategory: String = "Pot"
     @State private var isBuySheetPresented: Bool = false
     @State private var selectedItem: String? = nil
@@ -141,8 +141,10 @@ struct CustomisationView: View {
                             Button("Buy") {
                                 if stars >= selectedItemPrice {
                                     stars -= selectedItemPrice
+                                    print(selectedItemPrice)
                                     updateSelectedImage(for: selectedItem)
                                     isBuySheetPresented = false
+                                    
                                 }
                             }
                             .padding()
@@ -202,5 +204,5 @@ struct CustomisationView: View {
     }
 }
 #Preview {
-    CustomisationView(stars: .constant(25))
+    CustomisationView(stars: .constant(10))
 }
