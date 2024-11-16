@@ -8,20 +8,25 @@
 import SwiftUI
 import Forever
 
-struct questData: Identifiable, Encodable, Decodable {
+struct questData: Identifiable, Encodable, Decodable, Equatable {
     var id = UUID()
     var starNum: Int
     var limit: Double
     var timeFor: Int
     var catagory: String
+    var status: Bool?
     
     func quest() -> String {
         return "\(limit == 0 ? "Do not spend" : "Spend less than") \(limit != 0 ? "$\(Int(limit)).\(Int(String(limit).split(separator: ".")[1]) ?? 0)" : "") on \(catagory) \(timeFor == 1 ? "today" : "for \(timeFor) days")"
     }
+    func Status() -> Int{
+        return ( ((status) ?? nil == nil) ? 1 : (status! ? 2 : 3) )
+    }
 }
 
+
 struct QuestsView: View {
-    @State var Quests: [questData] = [
+    @State var Quests: [questData] = [ // ALL QUESTS
         questData(starNum: 1, limit: 30, timeFor: 1, catagory: "Food"),
         questData(starNum: 5, limit: 30, timeFor: 7, catagory: "Food"),
         questData(starNum: 1, limit: 0, timeFor: 7, catagory: "Shopping"),
@@ -61,10 +66,12 @@ struct QuestsView: View {
         questData(starNum: 2, limit: 20, timeFor: 7, catagory: "Essentials")
     ]
     
+    
     @State var questLimitAlert = false
     
-    @Forever("activeQuests") var activeQuests: [questData]  = []
-    @Forever("availableQuests") var availableQuests: [questData] = []
+    @Binding var availableQuests: [questData]
+    @Binding var activeQuests: [questData]
+    @Binding var stars: Int
     
     var body: some View {
         NavigationStack {
@@ -74,7 +81,7 @@ struct QuestsView: View {
                     Section(header: Text("Active Quests").bold().font(.system(size: 20))) {
                         if activeQuests.count > 0 {
                             ForEach(activeQuests, id: \.id) { quest in
-                                QuestCard(quest: quest)
+                                QuestCard(quest: quest, activeQuests: $activeQuests, stars: $stars)
                             }
                             .onDelete(perform: deleteItems)
                         } else {
@@ -87,7 +94,7 @@ struct QuestsView: View {
                     Section(header: Text("Available Quests").bold().font(.system(size: 20))) {
                         ForEach(availableQuests, id: \.id) { quest in
                             VStack(spacing: 10) {
-                                QuestCard(quest: quest)
+                                QuestCard(quest: quest, activeQuests: $activeQuests, stars: $stars)
                                 Button {
                                     withAnimation {
                                         if activeQuests.count < 4 {
@@ -110,12 +117,11 @@ struct QuestsView: View {
                                 }
                             }
                         }
-                        
-                        .alert("Quest Limit", isPresented: $questLimitAlert) {
-                            Button("Ok", role: .cancel) {}
-                        } message: {
-                            Text("Complete your active quests to start new quests!")
-                        }
+                    }
+                    .alert("QUEST LIMIT", isPresented: $questLimitAlert) {
+                        Button("OK", role: .cancel) {}
+                    } message: {
+                        Text("Complete your active quests to start new quests!")
                     }
                 }
             }
@@ -132,8 +138,6 @@ struct QuestsView: View {
             activeQuests.remove(atOffsets: offsets)
         }
     }
-    
-    
     func updateAvailQ() {
         while availableQuests.count < 5 {
             var generating = true
@@ -152,6 +156,8 @@ struct QuestsView: View {
 
 struct QuestCard: View {
     var quest: questData
+    @Binding var activeQuests: [questData]
+    @Binding var stars: Int
     
     var body: some View {
         VStack {
@@ -176,19 +182,42 @@ struct QuestCard: View {
                 
             }
             .padding()
+            
+            if quest.Status() == 2{
+                Button{
+                    withAnimation{
+                        stars += quest.starNum
+                        activeQuests.removeAll(where: { $0.id == quest.id })
+                        print(activeQuests)
+                        print(quest.id)
+                    }
+                } label: {
+                    Text("Complete")
+                        .bold()
+                        .font(.system(size: 20))
+                        .foregroundStyle(Color.white)
+                }
+                .padding(.top, -30)
+            }else if quest.Status() == 3{
+                Button{
+                    withAnimation{
+                        activeQuests.removeAll(where: { $0.id == quest.id })
+                    }
+                } label: {
+                    Text("Failed")
+                        .bold()
+                        .font(.system(size: 20))
+                        .foregroundStyle(Color.white)
+                }
+                .padding(.top, -30)
+            }
         }
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 15)
-                .fill(Color.white)
+                .fill(quest.Status() == 1 ? Color.white : quest.Status() == 2 ? Color.green : Color.red)
                 .shadow(radius: 5)
                 .padding()
         )
     }
-}
-
-
-
-#Preview {
-    QuestsView()
 }

@@ -1,4 +1,5 @@
 import SwiftUI
+import UserNotifications
 
 struct OnboardingView: View {
     @Binding var shouldShowOnboarding: Bool
@@ -43,6 +44,15 @@ struct OnboardingView: View {
         }
         .tabViewStyle(PageTabViewStyle())
         .ignoresSafeArea()
+        .onAppear{
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.badge,.sound]){ (succes, error) in
+                if let error = error{
+                    print("error: \(error)")
+                }else{
+                    print("success")
+                }
+            }
+        }
     }
 }
 

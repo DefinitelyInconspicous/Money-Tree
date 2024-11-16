@@ -9,10 +9,9 @@ import SwiftUI
 import Forever
 
 struct HomePage: View {
-    @Forever("start") var stars: Int = 0
+    @Binding var stars: Int
+    @Binding var activeQuests: [questData]
     
-    @Forever("activeQuests") var activeQuests:[questData] = []
-    @Binding var TabViewSelection: Int
     @AppStorage("shouldShowOnbarding") var shouldShowOnbarding: Bool = true
     
     // State variables for the selected customizations
@@ -97,7 +96,7 @@ struct HomePage: View {
                         if activeQuests.count > 0 {
                             VStack(spacing: 15) {
                                 ForEach(activeQuests, id: \.id) { quest in
-                                    QuestCard(quest: quest)
+                                    QuestCard(quest: quest, activeQuests: $activeQuests, stars: $stars)
                                 }
                             }
                             .padding(.horizontal)
@@ -110,16 +109,14 @@ struct HomePage: View {
                         }
                     }
                 }
-            }.fullScreenCover(isPresented: $shouldShowOnbarding, content: {
-                OnboardingView(shouldShowOnboarding: $shouldShowOnbarding)
-                
-                
             }
-            )}
-        
+            .fullScreenCover(isPresented: $shouldShowOnbarding, content: {
+                OnboardingView(shouldShowOnboarding: $shouldShowOnbarding)
+            })
+        }
     }
 }
 
 #Preview {
-    HomePage(TabViewSelection: .constant(0))
+    HomePage(stars: .constant(0), activeQuests: .constant([]))
 }
