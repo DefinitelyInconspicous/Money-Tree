@@ -27,7 +27,6 @@ struct QuestsView: View {
         questData(starNum: 1, limit: 0, timeFor: 7, catagory: "Shopping"),
         questData(starNum: 1, limit: 60, timeFor: 30, catagory: "Clothes"),
         questData(starNum: 3, limit: 50, timeFor: 2, catagory: "Food")
-        // Additional quests...
     ]
     
     @State var questLimitAlert = false
@@ -45,6 +44,7 @@ struct QuestsView: View {
                             ForEach(activeQuests, id: \.id) { quest in
                                 QuestCard(quest: quest)
                             }
+                            .onDelete(perform: deleteItems)
                         } else {
                             Text("You don't have any active quests yet 😔")
                                 .foregroundColor(.gray)
@@ -78,6 +78,7 @@ struct QuestsView: View {
                                 }
                             }
                         }
+                        
                         .alert("Quest Limit", isPresented: $questLimitAlert) {
                             Button("Ok", role: .cancel) {}
                         } message: {
@@ -93,6 +94,13 @@ struct QuestsView: View {
             .navigationBarTitleDisplayMode(.large)
         }
     }
+    
+    func deleteItems(at offsets: IndexSet) {
+        withAnimation {
+            activeQuests.remove(atOffsets: offsets)
+        }
+    }
+    
     
     func updateAvailQ() {
         while availableQuests.count < 5 {
@@ -116,30 +124,38 @@ struct QuestCard: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Text(quest.quest())
                         .font(.headline)
+                        .frame(maxHeight: .infinity)
                         .foregroundColor(.primary)
                 }
                 Spacer()
-                ZStack {
-                    Image(systemName: "star.fill")
-                        .resizable()
-                        .foregroundStyle(.yellow)
-                        .frame(width: 50, height: 50)
-                    Text("\(quest.starNum)")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                }
+                Text("\(quest.starNum)")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .background() {
+                        Image(systemName: "star.fill")
+                            .resizable()
+                            .foregroundStyle(.yellow)
+                            .frame(width: 50, height: 50)
+                    }
+                    .padding()
+                
             }
             .padding()
         }
+        .padding()
         .background(
             RoundedRectangle(cornerRadius: 15)
                 .fill(Color.white)
                 .shadow(radius: 5)
+                .padding()
         )
     }
 }
 
 // Preview
+
+
+
 #Preview {
     QuestsView(activeQuests: .constant([]))
 }
