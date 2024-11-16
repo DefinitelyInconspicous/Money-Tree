@@ -9,7 +9,7 @@ import SwiftUI
 import Forever
 
 struct AddExpense: View {
-    @Forever("Categories") var categories: [String] = ["Food", "Clothes", "Utilities", "Shopping"]
+    @Forever("Categories") var categories: [String] = ["Food", "Clothes", "Utilities", "Shopping", "Entertainment", "Essentials", "Transportation"]
     @Binding var expenseList: [Expense]
     @State var selCat = "Food"
     @State var amount = ""
@@ -47,7 +47,7 @@ struct AddExpense: View {
 
                 // Date Picker Section
                 Section(header: Text("Date").font(.headline)) {
-                    DatePicker("Select date", selection: $date, displayedComponents: .date)
+                    DatePicker("Select date", selection: $date, in: ...Date.now, displayedComponents: .date)
                         .datePickerStyle(DefaultDatePickerStyle())
                         .padding(.vertical, 10)
                     
