@@ -10,8 +10,9 @@ struct CustomisationView: View {
     @Binding var stars: Int  
     @State private var selectedCategory: String = "Pot"
     let categories = ["Pot", "Soil", "Plant"]
-    
-   
+    @State private var selectedPot: String = "Starting Pot"
+    @State private var selectedPlant: String = "plant"
+    @State private var selectedSoil: String = "soil1"
     let potImages = ["Starting Pot", "pot2", "pot3", "pot4", "pot5", "pot6", "pot7", "pot8", "pot9", "pot10", "pot11"]
     let soilImages = ["soil1", "soil2", "soil3", "soil4"]
     let plantImages = ["plant", "plant2", "plant3", "plant4"]
@@ -35,13 +36,25 @@ struct CustomisationView: View {
                 .offset(y:50)
                 
                
-               
-                Image("currentTree")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 200)
-                    .padding(.top, 20)
-                
+                ZStack{
+                    Image(selectedPot)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 300, height: 300)
+                        .padding(.top, 20)
+                    Image(selectedPlant)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 300, height: 300)
+                        .padding(.top, 20)
+                    
+                    Image(selectedSoil)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 300, height: 300)
+                        .padding(.top, 20)
+                    
+                }.offset(y:90)
                 
                 Picker("Category", selection: $selectedCategory) {
                     ForEach(categories, id: \.self) { category in
