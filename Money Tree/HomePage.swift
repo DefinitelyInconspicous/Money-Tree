@@ -31,17 +31,6 @@ struct HomePage: View {
                     .navigationTitle("Home")
                     .navigationBarTitleDisplayMode(.large)
                     
-                    NavigationLink(destination: QuestsView(activeQuests: $activeQuests)) {
-                        Text("Add expense")
-                            .font(.headline)
-                            .foregroundColor(.blue)
-                            .padding(.top, 10)
-                            .offset(x: 100, y: 40)
-                        Image(systemName: "chevron.right")
-                            .imageScale(.large)
-                            .fontWeight(.heavy)
-                            .offset(x: 100, y: 45)
-                    }
                     
                     ZStack {
                         
@@ -127,7 +116,6 @@ struct HomePage: View {
                     Text("You don't have any active quests yet :(")
                         .offset(y: -120)
                 }
-                .offset(y: -180)
             }
         }
     }

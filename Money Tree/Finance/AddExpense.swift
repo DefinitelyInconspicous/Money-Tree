@@ -20,6 +20,7 @@ struct AddExpense: View {
     var body: some View {
         NavigationStack {
             Form {
+                // Category Picker Section
                 Section(header: Text("Category").font(.headline)) {
                     Picker("Category", selection: $selCat) {
                         ForEach(categories, id: \.self) { cat in
@@ -29,6 +30,7 @@ struct AddExpense: View {
                     .pickerStyle(MenuPickerStyle())
                 }
 
+                // Amount Input Section
                 Section(header: Text("Amount").font(.headline)) {
                     TextField("Enter amount", text: $amount)
                         .keyboardType(.decimalPad)
@@ -43,8 +45,9 @@ struct AddExpense: View {
                     }
                 }
 
+                // Date Picker Section
                 Section(header: Text("Date").font(.headline)) {
-                    DatePicker("Select date", selection: $date)
+                    DatePicker("Select date", selection: $date, displayedComponents: .date)
                         .datePickerStyle(DefaultDatePickerStyle())
                         .padding(.vertical, 10)
                     
@@ -56,12 +59,15 @@ struct AddExpense: View {
                     }
                 }
 
+                // Add Expense Button
                 Section {
                     Button(action: {
                         errorMessage = nil
                         
                         if let expenseAmount = Double(amount), expenseAmount > 0, date <= Date() {
-                            expenseList.append(Expense(amt: expenseAmount, time: date, cat: selCat, timeact: false))
+                            let newExpense = Expense(amt: expenseAmount, time: date, cat: selCat, timeact: false)
+                            expenseList.append(newExpense)
+                            print("Expense added: \(newExpense)") // Debug statement
                             dismiss()
                         } else {
                             if let expenseAmount = Double(amount), expenseAmount <= 0 {
@@ -76,7 +82,7 @@ struct AddExpense: View {
                             .frame(maxWidth: .infinity, alignment: .center)
                             .padding()
                             .background(Color.green)
-                            .opacity(isFormInvalid ? 0.5 : 1)
+                            .opacity(isFormInvalid ? 0.7 : 1)
                             .foregroundColor(.white)
                             .cornerRadius(10)
                             .padding(.vertical)
