@@ -59,8 +59,9 @@ struct CustomisationView: View {
                     ForEach(currentOptions(), id: \.self) { imageName in
                         Image(imageName)
                             .resizable()
+                            .padding()
                             .frame(width: 100, height: 100)
-                            .border(Color.green, width: 3)
+                            .border(Color.green, width: 10)
                             .cornerRadius(10)
                     }
                 }
