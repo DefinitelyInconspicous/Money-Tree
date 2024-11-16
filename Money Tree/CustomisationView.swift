@@ -61,9 +61,8 @@ struct CustomisationView: View {
                         Text(category)
                     }
                 }
-                .pickerStyle(MenuPickerStyle())
+                .pickerStyle(SegmentedPickerStyle())
                 .padding()
-                .background(Color.green.opacity(0.3))
                 .cornerRadius(10)
                 .frame(maxWidth: .infinity, alignment: .center)
                 

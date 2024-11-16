@@ -7,17 +7,72 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF5008E22CE8690000BA1E83 /* AddExpense.appex in Embed ExtensionKit Extensions */ = {isa = PBXBuildFile; fileRef = CF5008D92CE8690000BA1E83 /* AddExpense.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CFBEB5192CE197FB0070F1CF /* Forever in Frameworks */ = {isa = PBXBuildFile; productRef = CFBEB5182CE197FB0070F1CF /* Forever */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		CF5008E02CE8690000BA1E83 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8175AED52CDF3C5A00F120FE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CF5008D82CE8690000BA1E83;
+			remoteInfo = AddExpense;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CF5008E72CE8690000BA1E83 /* Embed ExtensionKit Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(EXTENSIONS_FOLDER_PATH)";
+			dstSubfolderSpec = 16;
+			files = (
+				CF5008E22CE8690000BA1E83 /* AddExpense.appex in Embed ExtensionKit Extensions */,
+			);
+			name = "Embed ExtensionKit Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		8175AEDD2CDF3C5B00F120FE /* Money Tree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Money Tree.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF5008D92CE8690000BA1E83 /* AddExpense.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.extensionkit-extension"; includeInIndex = 0; path = AddExpense.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		CF5008E32CE8690000BA1E83 /* Exceptions for "AddExpense" folder in "AddExpense" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ExpenseIntent.intentdefinition,
+				Info.plist,
+				Intent.swift,
+			);
+			target = CF5008D82CE8690000BA1E83 /* AddExpense */;
+		};
+		CF5008E82CE86B8C00BA1E83 /* Exceptions for "AddExpense" folder in "Money Tree" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ExpenseIntent.intentdefinition,
+				Intent.swift,
+			);
+			target = 8175AEDC2CDF3C5A00F120FE /* Money Tree */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		8175AEDF2CDF3C5B00F120FE /* Money Tree */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Money Tree";
+			sourceTree = "<group>";
+		};
+		CF5008DA2CE8690000BA1E83 /* AddExpense */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				CF5008E82CE86B8C00BA1E83 /* Exceptions for "AddExpense" folder in "Money Tree" target */,
+				CF5008E32CE8690000BA1E83 /* Exceptions for "AddExpense" folder in "AddExpense" target */,
+			);
+			path = AddExpense;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -31,6 +86,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CF5008D62CE8690000BA1E83 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -38,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				8175AEDF2CDF3C5B00F120FE /* Money Tree */,
+				CF5008DA2CE8690000BA1E83 /* AddExpense */,
 				8175AEDE2CDF3C5B00F120FE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -46,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				8175AEDD2CDF3C5B00F120FE /* Money Tree.app */,
+				CF5008D92CE8690000BA1E83 /* AddExpense.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -60,10 +124,12 @@
 				8175AED92CDF3C5A00F120FE /* Sources */,
 				8175AEDA2CDF3C5A00F120FE /* Frameworks */,
 				8175AEDB2CDF3C5A00F120FE /* Resources */,
+				CF5008E72CE8690000BA1E83 /* Embed ExtensionKit Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				CF5008E12CE8690000BA1E83 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				8175AEDF2CDF3C5B00F120FE /* Money Tree */,
@@ -76,6 +142,28 @@
 			productReference = 8175AEDD2CDF3C5B00F120FE /* Money Tree.app */;
 			productType = "com.apple.product-type.application";
 		};
+		CF5008D82CE8690000BA1E83 /* AddExpense */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CF5008E42CE8690000BA1E83 /* Build configuration list for PBXNativeTarget "AddExpense" */;
+			buildPhases = (
+				CF5008D52CE8690000BA1E83 /* Sources */,
+				CF5008D62CE8690000BA1E83 /* Frameworks */,
+				CF5008D72CE8690000BA1E83 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				CF5008DA2CE8690000BA1E83 /* AddExpense */,
+			);
+			name = AddExpense;
+			packageProductDependencies = (
+			);
+			productName = AddExpense;
+			productReference = CF5008D92CE8690000BA1E83 /* AddExpense.appex */;
+			productType = "com.apple.product-type.extensionkit-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -87,6 +175,9 @@
 				LastUpgradeCheck = 1610;
 				TargetAttributes = {
 					8175AEDC2CDF3C5A00F120FE = {
+						CreatedOnToolsVersion = 16.1;
+					};
+					CF5008D82CE8690000BA1E83 = {
 						CreatedOnToolsVersion = 16.1;
 					};
 				};
@@ -109,12 +200,20 @@
 			projectRoot = "";
 			targets = (
 				8175AEDC2CDF3C5A00F120FE /* Money Tree */,
+				CF5008D82CE8690000BA1E83 /* AddExpense */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8175AEDB2CDF3C5A00F120FE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CF5008D72CE8690000BA1E83 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -131,7 +230,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CF5008D52CE8690000BA1E83 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CF5008E12CE8690000BA1E83 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CF5008D82CE8690000BA1E83 /* AddExpense */;
+			targetProxy = CF5008E02CE8690000BA1E83 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		8175AEE92CDF3C5D00F120FE /* Debug */ = {
@@ -264,11 +378,14 @@
 				DEVELOPMENT_TEAM = 42V9477C3N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Money-Tree-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Money Tree";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -297,11 +414,14 @@
 				DEVELOPMENT_TEAM = 42V9477C3N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Money-Tree-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Money Tree";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -313,6 +433,56 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		CF5008E52CE8690000BA1E83 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 42V9477C3N;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AddExpense/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AddExpense;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "am2.Money-Tree.AddExpense";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CF5008E62CE8690000BA1E83 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 42V9477C3N;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AddExpense/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AddExpense;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "am2.Money-Tree.AddExpense";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -336,6 +506,15 @@
 			buildConfigurations = (
 				8175AEEC2CDF3C5D00F120FE /* Debug */,
 				8175AEED2CDF3C5D00F120FE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CF5008E42CE8690000BA1E83 /* Build configuration list for PBXNativeTarget "AddExpense" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CF5008E52CE8690000BA1E83 /* Debug */,
+				CF5008E62CE8690000BA1E83 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
