@@ -9,31 +9,62 @@ import SwiftUI
 
 struct questData{
     let id = UUID()
-    var quest: String
     var starNum: Int
+    var limit: Double
+    var timeFor: Int
+    var catagory: String
+    
+    func quest() -> String{
+        return "\(limit == 0 ? "Do not spend":"Spend less than") \(limit != 0 ? "$\(Int(limit)).\(Int(String(limit).split(separator: ".")[1]) ?? 0) ":"")on \(catagory) \(timeFor == 1 ? "today":"for \(timeFor) days")"
+    }
 }
 
 struct QuestsView: View {
     @State var Quests: [questData] = [
-        questData(quest: "Do not spend more than $30 on food today.", starNum: 1),
-        questData(quest: "Do not spend more than $30 on food this week.", starNum: 5),
-        questData(quest: "Don’t online shop this week", starNum: 1),
-        questData(quest: "Spend less than $60 on clothes this month.", starNum: 1),
-        questData(quest: "Limit takeout expenses to $20 this weekend.", starNum: 2),
-        questData(quest: "Spend under $50 on groceries this week.", starNum: 3),
-        questData(quest: "No new clothing purchases this month.", starNum: 2),
-        questData(quest: "Spend less than $100 on entertainment this month.", starNum: 4),
-        questData(quest: "No tech gadgets purchases this week.", starNum: 3),
-        questData(quest: "Do not buy any fast food this week.", starNum: 3),
-        questData(quest: "Spend under $30 on transportation this weekend.", starNum: 2),
-        questData(quest: "Limit online shopping expenses to $50 this week.", starNum: 3),
-        questData(quest: "Spend less than $20 on snacks this week.", starNum: 2),
-        questData(quest: "Do not buy any non-essential items today.", starNum: 2),
-        questData(quest: "Spend under $15 on hobbies this weekend.", starNum: 3),
-        questData(quest: "Limit grocery shopping to once this week.", starNum: 4),
-        questData(quest: "No spending on streaming services this week.", starNum: 2),
-        questData(quest: "Only buy essentials during the next 3 days.", starNum: 3),
-        questData(quest: "Do not buy drinks at bars this weekend.", starNum: 4)
+        questData(starNum: 1, limit: 30, timeFor: 1, catagory: "Food"),
+        questData(starNum: 5, limit: 30, timeFor: 7, catagory: "Food"),
+        questData(starNum: 1, limit: 0, timeFor: 7, catagory: "Shopping"),
+        questData(starNum: 1, limit: 60, timeFor: 30, catagory: "Clothes"),
+        questData(starNum: 3, limit: 50, timeFor: 2, catagory: "Food"),
+        questData(starNum: 4, limit: 100, timeFor: 30, catagory: "Entertainment"),
+        questData(starNum: 3, limit: 0, timeFor: 7, catagory: "Food"),
+        questData(starNum: 2, limit: 30, timeFor: 5, catagory: "Transportation"),
+        questData(starNum: 3, limit: 50, timeFor: 7, catagory: "Shopping"),
+        questData(starNum: 2, limit: 20, timeFor: 7, catagory: "Food"),
+        questData(starNum: 2, limit: 0, timeFor: 1, catagory: "Essentials"),
+        questData(starNum: 3, limit: 15, timeFor: 2, catagory: "Entertainment"),
+        questData(starNum: 4, limit: 0, timeFor: 7, catagory: "Essentials"),
+        questData(starNum: 2, limit: 0, timeFor: 7, catagory: "Entertainment"),
+        questData(starNum: 4, limit: 0, timeFor: 10, catagory: "Food"),
+        questData(starNum: 1, limit: 20, timeFor: 1, catagory: "Shopping"),
+        questData(starNum: 4, limit: 100, timeFor: 30, catagory: "Food"),
+        questData(starNum: 2, limit: 30, timeFor: 2, catagory: "Entertainment"),
+        questData(starNum: 3, limit: 0, timeFor: 7, catagory: "Entertainment"),
+        questData(starNum: 2, limit: 25, timeFor: 7, catagory: "Food"),
+        questData(starNum: 3, limit: 0, timeFor: 10, catagory: "Clothes"),
+        questData(starNum: 5, limit: 40, timeFor: 30, catagory: "Entertainment"),
+        questData(starNum: 1, limit: 10, timeFor: 1, catagory: "Food"),
+        questData(starNum: 3, limit: 0, timeFor: 2, catagory: "Essentials"),
+        questData(starNum: 4, limit: 50, timeFor: 30, catagory: "Transportation"),
+        questData(starNum: 4, limit: 0, timeFor: 5, catagory: "Food"),
+        questData(starNum: 2, limit: 5, timeFor: 7, catagory: "Entertainment"),
+        questData(starNum: 2, limit: 0, timeFor: 2, catagory: "Shopping"),
+        questData(starNum: 5, limit: 0, timeFor: 30, catagory: "Entertainment"),
+        questData(starNum: 5, limit: 0, timeFor: 14, catagory: "Shopping"),
+        questData(starNum: 4, limit: 150, timeFor: 30, catagory: "Food"),
+        questData(starNum: 3, limit: 40, timeFor: 2, catagory: "Food"),
+        questData(starNum: 3, limit: 0, timeFor: 7, catagory: "Essentials"),
+        questData(starNum: 1, limit: 0, timeFor: 1, catagory: "Entertainment"),
+        questData(starNum: 3, limit: 15, timeFor: 7, catagory: "Transportation"),
+        questData(starNum: 2, limit: 0, timeFor: 2, catagory: "Shopping"),
+        questData(starNum: 4, limit: 0, timeFor: 7, catagory: "Food"),
+        questData(starNum: 4, limit: 0, timeFor: 7, catagory: "Food"),
+        questData(starNum: 2, limit: 5, timeFor: 1, catagory: "Transportation"),
+        questData(starNum: 3, limit: 0, timeFor: 5, catagory: "Shopping"),
+        questData(starNum: 3, limit: 0, timeFor: 5, catagory: "Entertainment"),
+        questData(starNum: 4, limit: 50, timeFor: 30, catagory: "Essentials"),
+        questData(starNum: 5, limit: 0, timeFor: 14, catagory: "Food"),
+        questData(starNum: 2, limit: 20, timeFor: 7, catagory: "Essentials")
     ]
     
     @State var questLimitAlert = false
@@ -57,7 +88,7 @@ struct QuestsView: View {
                     
                     if activeQuests.count > 0{
                         ForEach(activeQuests, id: \.id) { quest in
-                            CreateActiveQuest(quest: quest.quest, starNum: quest.starNum)
+                            CreateActiveQuest(quest: quest.quest(), starNum: quest.starNum)
                         }
                     }else{
                         Text("You don't have any active quests yet :(")
@@ -76,12 +107,13 @@ struct QuestsView: View {
                     }
                     .onAppear{
                         updateAvailQ()
+                        print(Quests[0].quest())
                     }
                     
                     ForEach(availableQuests, id:\.id) { quest in
                         ZStack{
                             VStack{
-                                Text("\(quest.quest)")
+                                Text("\(quest.quest())")
                                     .frame(width: 270)
                                     .foregroundColor(Color.black)
                                     .multilineTextAlignment(.leading)
@@ -95,13 +127,13 @@ struct QuestsView: View {
                                     Image(systemName: "star.fill")
                                         .symbolRenderingMode(.multicolor)
                                         .padding(.top, 7)
-                                    
-                                    
+//                                    
+//                                    
                                     Button("Start") {
                                         withAnimation{
                                             if(activeQuests.count < 4){
-                                                availableQuests.remove(at: availableQuests.firstIndex(where: {$0.quest == quest.quest})!)
-                                                activeQuests.append(questData(quest: quest.quest, starNum: quest.starNum))
+                                                availableQuests.remove(at: availableQuests.firstIndex(where: {$0.quest() == quest.quest()})!)
+                                                activeQuests.append(questData(starNum: quest.starNum, limit: quest.limit, timeFor: quest.timeFor, catagory: quest.catagory))
                                                 updateAvailQ()
                                             }else{
                                                 questLimitAlert = true
@@ -124,9 +156,6 @@ struct QuestsView: View {
                         Text("Complete your active quests to start new quests!")
                     }
                 }
-                
-                
-                
             }
             Spacer()
                 .navigationTitle("Quests")
@@ -136,15 +165,15 @@ struct QuestsView: View {
     func updateAvailQ(){
         while(availableQuests.count < 5){
             var generating = true
-            var randomQuest = questData(quest: "", starNum: 0)
+            var randomQuest = questData(starNum: 0, limit: 0.0, timeFor: 0, catagory: "")
             while(generating){
                 randomQuest = Quests[Int.random(in: 0..<Quests.count)]
                 
                 let Contains = availableQuests.contains{ quest in
-                    return quest.quest == randomQuest.quest
+                    return quest.quest() == randomQuest.quest()
                 }
                 generating = Contains
-                
+                print(randomQuest)
             }
             availableQuests.append(randomQuest)
         }
@@ -156,12 +185,12 @@ struct QuestsView: View {
 
 
 
+
 struct CreateActiveQuest: View {
     var quest: String
     var starNum: Int
     var body: some View {
         ZStack{
-            
             VStack{
                 Text("\(quest)")
                     .frame(width: 270)
@@ -177,10 +206,7 @@ struct CreateActiveQuest: View {
                     Image(systemName: "star.fill")
                         .symbolRenderingMode(.multicolor)
                         .padding(.top, 7)
-                    
                 }
-                
-                
             }
         }
     }
