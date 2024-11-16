@@ -1,19 +1,22 @@
 import SwiftUI
-
 struct CustomisationView: View {
-    @Binding var stars: Int   // Binding to reflect the stars from the HomePage
+    @Binding var stars: Int
+    @Binding var selectedPot: String
+    @Binding var selectedSoil: String
+    @Binding var selectedPlant: String
+    
     @State private var selectedCategory: String = "Pot"
     @State private var isBuySheetPresented: Bool = false
     @State private var selectedItem: String? = nil
     @State private var selectedItemPrice: Int = 0
     let categories = ["Pot", "Soil", "Plant"]
     
-   
-    @State private var selectedPot: String = "Starting Pot"
-    @State private var selectedSoil: String = "soil1"
-    @State private var selectedPlant: String = "plant"
+    // Ownership tracking
+    @State private var ownedPots: Set<String> = ["Starting Pot"]
+    @State private var ownedSoils: Set<String> = ["soil1"]
+    @State private var ownedPlants: Set<String> = ["plant"]
     
-    let potImages = ["Starting Pot", "pot2","pot5", "pot11", "pot6", "pot8", "pot9","pot7", "pot3", "pot4"]
+    let potImages = ["Starting Pot", "pot2", "pot5", "pot11", "pot6", "pot8", "pot9", "pot7", "pot3", "pot4"]
     let potPrices = [0, 10, 10, 10, 10, 10, 10, 15, 20, 25]
     
     let soilImages = ["soil1", "soil2", "soil3", "soil4"]
@@ -25,7 +28,7 @@ struct CustomisationView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
-                
+                // Stars and Title
                 HStack {
                     Spacer()
                     Text("\(stars)")
@@ -39,12 +42,11 @@ struct CustomisationView: View {
                 .padding(.top, 10)
                 .padding(.trailing, 20)
                 
-                
                 Text("Customise Your Tree")
                     .font(.system(size: 32, weight: .bold))
                     .padding(.top, 20)
                 
-                
+                // Preview Tree
                 ZStack {
                     Image(selectedPot)
                         .resizable()
@@ -63,7 +65,7 @@ struct CustomisationView: View {
                 }
                 .padding(.top, 20)
                 
-               
+                // Picker for Category
                 Picker("Category", selection: $selectedCategory) {
                     ForEach(categories, id: \.self) { category in
                         Text(category)
@@ -74,7 +76,7 @@ struct CustomisationView: View {
                 .cornerRadius(10)
                 .frame(maxWidth: .infinity, alignment: .center)
                 
-                
+                // Items Grid
                 ScrollView {
                     LazyVGrid(
                         columns: [
@@ -91,14 +93,18 @@ struct CustomisationView: View {
                                 Image(imageName)
                                     .resizable()
                                     .frame(width: 100, height: 100)
-                                    .border(Color.green, width: 3)
+                                    .border(ownedItems().contains(imageName) ? Color.blue : Color.green, width: 3)
                                     .cornerRadius(10)
                                     .onTapGesture {
-                                        selectedItem = imageName
-                                        selectedItemPrice = price
-                                        isBuySheetPresented = true
+                                        if ownedItems().contains(imageName) {
+                                            updateSelectedImage(for: imageName) // Select owned item
+                                        } else {
+                                            selectedItem = imageName
+                                            selectedItemPrice = price
+                                            isBuySheetPresented = true
+                                        }
                                     }
-                                Text("\(price)⭐")
+                                Text(ownedItems().contains(imageName) ? "Owned" : "\(price)⭐")
                                     .font(.caption)
                                     .foregroundColor(.gray)
                             }
@@ -106,7 +112,6 @@ struct CustomisationView: View {
                     }
                     .padding(.horizontal)
                 }
-
                 
                 Spacer()
             }
@@ -141,10 +146,8 @@ struct CustomisationView: View {
                             Button("Buy") {
                                 if stars >= selectedItemPrice {
                                     stars -= selectedItemPrice
-                                    print(selectedItemPrice)
-                                    updateSelectedImage(for: selectedItem)
+                                    updateSelectedImage(for: selectedItem) // Select and own the item
                                     isBuySheetPresented = false
-                                    
                                 }
                             }
                             .padding()
@@ -161,7 +164,6 @@ struct CustomisationView: View {
         }
     }
     
-   
     func currentOptions() -> [String] {
         switch selectedCategory {
         case "Pot":
@@ -174,7 +176,6 @@ struct CustomisationView: View {
             return []
         }
     }
-    
     
     func currentPrices() -> [Int] {
         switch selectedCategory {
@@ -189,20 +190,41 @@ struct CustomisationView: View {
         }
     }
     
-
     func updateSelectedImage(for imageName: String) {
         switch selectedCategory {
         case "Pot":
             selectedPot = imageName
+            ownedPots.insert(imageName)
         case "Soil":
             selectedSoil = imageName
+            ownedSoils.insert(imageName)
         case "Plant":
             selectedPlant = imageName
+            ownedPlants.insert(imageName)
         default:
             break
         }
     }
+    
+    func ownedItems() -> Set<String> {
+        switch selectedCategory {
+        case "Pot":
+            return ownedPots
+        case "Soil":
+            return ownedSoils
+        case "Plant":
+            return ownedPlants
+        default:
+            return []
+        }
+    }
 }
+
 #Preview {
-    CustomisationView(stars: .constant(10))
+    CustomisationView(
+        stars: .constant(100),
+        selectedPot: .constant("Starting Pot"),
+        selectedSoil: .constant("soil1"),
+        selectedPlant: .constant("plant")
+    )
 }

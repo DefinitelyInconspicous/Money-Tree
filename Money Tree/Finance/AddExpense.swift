@@ -50,18 +50,11 @@ struct AddExpense: View {
                     DatePicker("Select date", selection: $date, in: ...Date.now, displayedComponents: .date)
                         .datePickerStyle(DefaultDatePickerStyle())
                         .padding(.vertical, 10)
-                    
-                    if date > Date() {
-                        Text("The date cannot be in the future.")
-                            .font(.caption)
-                            .foregroundColor(.red)
-                            .padding(.top, 5)
-                    }
                 }
 
                 // Add Expense Button
                 Section {
-                    Button(action: {
+                    Button{
                         errorMessage = nil
                         
                         if let expenseAmount = Double(amount), expenseAmount > 0, date <= Date() {
@@ -76,7 +69,7 @@ struct AddExpense: View {
                                 errorMessage = "The date cannot be in the future."
                             }
                         }
-                    }) {
+                    } label:{
                         Text("Add Expense")
                             .fontWeight(.semibold)
                             .frame(maxWidth: .infinity, alignment: .center)

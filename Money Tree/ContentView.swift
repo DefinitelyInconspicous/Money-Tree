@@ -9,14 +9,15 @@ import Forever
 
 struct ContentView: View {
     
-    @Forever("activeQuests") var activeQuests:[questData] = []
     @State var TabViewSelection = 0
     
-    @State var firstOpened = true
+    @Forever("expenseList") var expenseList:[Expense] = []
+    @Forever("activeQuests") var activeQuests:[questData] = []
+    @State private var prevDay = Date.now
     
     var body: some View {
         TabView(selection: $TabViewSelection){
-            HomePage(activeQuests: $activeQuests, TabViewSelection: $TabViewSelection)
+            HomePage(TabViewSelection: $TabViewSelection)
                 .tabItem{
                     Label("Home", systemImage: "house.fill")
                 }
@@ -27,27 +28,40 @@ struct ContentView: View {
                     Label("Finance", systemImage: "dollarsign")
                 }
                 .tag(2)
-            QuestsView(activeQuests: $activeQuests)
+            QuestsView()
                 .tabItem{
                     Label("Quest", systemImage: "book.closed.fill")
                 }
                 .tag(3)
-            
         }
         .onAppear{
-            firstOpened = UserDefaults.standard.bool(forKey: "firstOpened")
-            if firstOpened{
-                UserDefaults.standard.set(Date.now, forKey: "firstOpenedDay")
-                UserDefaults.standard.set(false, forKey: "firstOpened")
-                print("hello")
+            //Update days
+            
+            if let storedPrevDay = UserDefaults.standard.object(forKey: "PrevDay") as? Date{
+                prevDay = storedPrevDay
             }else{
-                print("nope")
+                print("first time")
+                UserDefaults.standard.set(Calendar.current, forKey: "PrevDay")
             }
-            print("onappear done")
+            
+            let timeInterval = Calendar.current.dateComponents([.day], from: prevDay, to: Date.now)
+            if timeInterval.day! > 0{
+                for i in 0..<activeQuests.count{
+                    activeQuests[i].timeFor -= 1
+                }
+            }
+        }
+        .onChange(of: expenseList){ old, new in
+            let expense = expenseList.last
+            
+            for i in 0..<activeQuests.count{
+                if (activeQuests[i].catagory == expense!.cat){
+                    activeQuests[i].limit -= expense!.amt
+                }
+            }
         }
     }
 }
-
 #Preview {
     ContentView()
 }

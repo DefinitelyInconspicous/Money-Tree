@@ -26,12 +26,44 @@ struct QuestsView: View {
         questData(starNum: 5, limit: 30, timeFor: 7, catagory: "Food"),
         questData(starNum: 1, limit: 0, timeFor: 7, catagory: "Shopping"),
         questData(starNum: 1, limit: 60, timeFor: 30, catagory: "Clothes"),
-        questData(starNum: 3, limit: 50, timeFor: 2, catagory: "Food")
+        questData(starNum: 3, limit: 50, timeFor: 2, catagory: "Food"),
+        questData(starNum: 4, limit: 100, timeFor: 30, catagory: "Entertainment"),
+        questData(starNum: 2, limit: 30, timeFor: 5, catagory: "Transportation"),
+        questData(starNum: 3, limit: 50, timeFor: 7, catagory: "Shopping"),
+        questData(starNum: 2, limit: 20, timeFor: 7, catagory: "Food"),
+        questData(starNum: 2, limit: 0, timeFor: 1, catagory: "Essentials"),
+        questData(starNum: 3, limit: 15, timeFor: 2, catagory: "Entertainment"),
+        questData(starNum: 2, limit: 0, timeFor: 7, catagory: "Entertainment"),
+        questData(starNum: 3, limit: 0, timeFor: 3, catagory: "Essentials"),
+        questData(starNum: 4, limit: 0, timeFor: 10, catagory: "Entertainment"),
+        questData(starNum: 1, limit: 20, timeFor: 1, catagory: "Shopping"),
+        questData(starNum: 4, limit: 100, timeFor: 30, catagory: "Food"),
+        questData(starNum: 2, limit: 30, timeFor: 2, catagory: "Entertainment"),
+        questData(starNum: 3, limit: 0, timeFor: 7, catagory: "Entertainment"),
+        questData(starNum: 2, limit: 25, timeFor: 7, catagory: "Food"),
+        questData(starNum: 3, limit: 0, timeFor: 10, catagory: "Clothes"),
+        questData(starNum: 5, limit: 40, timeFor: 30, catagory: "Entertainment"),
+        questData(starNum: 1, limit: 10, timeFor: 1, catagory: "Food"),
+        questData(starNum: 3, limit: 0, timeFor: 2, catagory: "Essentials"),
+        questData(starNum: 4, limit: 50, timeFor: 30, catagory: "Transportation"),
+        questData(starNum: 2, limit: 5, timeFor: 7, catagory: "Entertainment"),
+        questData(starNum: 2, limit: 0, timeFor: 2, catagory: "Shopping"),
+        questData(starNum: 5, limit: 0, timeFor: 30, catagory: "Entertainment"),
+        questData(starNum: 5, limit: 0, timeFor: 14, catagory: "Shopping"),
+        questData(starNum: 3, limit: 150, timeFor: 30, catagory: "Food"),
+        questData(starNum: 3, limit: 40, timeFor: 2, catagory: "Food"),
+        questData(starNum: 3, limit: 0, timeFor: 7, catagory: "Essentials"),
+        questData(starNum: 1, limit: 0, timeFor: 1, catagory: "Entertainment"),
+        questData(starNum: 3, limit: 15, timeFor: 7, catagory: "Transportation"),
+        questData(starNum: 2, limit: 0, timeFor: 2, catagory: "Shopping"),
+        questData(starNum: 4, limit: 0, timeFor: 7, catagory: "Entertainment"),
+        questData(starNum: 3, limit: 50, timeFor: 30, catagory: "Essentials"),
+        questData(starNum: 2, limit: 20, timeFor: 7, catagory: "Essentials")
     ]
     
     @State var questLimitAlert = false
     
-    @Binding var activeQuests: [questData]
+    @Forever("activeQuests") var activeQuests: [questData]  = []
     @Forever("availableQuests") var availableQuests: [questData] = []
     
     var body: some View {
@@ -87,11 +119,11 @@ struct QuestsView: View {
                     }
                 }
             }
+            .navigationTitle("Quests")
+            .navigationBarTitleDisplayMode(.large)
             .onAppear {
                 updateAvailQ()
             }
-            .navigationTitle("Quests")
-            .navigationBarTitleDisplayMode(.large)
         }
     }
     
@@ -114,6 +146,9 @@ struct QuestsView: View {
         }
     }
 }
+
+
+
 
 struct QuestCard: View {
     var quest: questData
@@ -152,10 +187,8 @@ struct QuestCard: View {
     }
 }
 
-// Preview
-
 
 
 #Preview {
-    QuestsView(activeQuests: .constant([]))
+    QuestsView()
 }

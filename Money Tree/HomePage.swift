@@ -11,8 +11,13 @@ import Forever
 struct HomePage: View {
     @Forever("start") var stars: Int = 0
     
-    @Binding var activeQuests: [questData]
+    @Forever("activeQuests") var activeQuests:[questData] = []
     @Binding var TabViewSelection: Int
+    
+    // State variables for the selected customizations
+    @State private var selectedPot: String = "Starting Pot"
+    @State private var selectedSoil: String = "soil1"
+    @State private var selectedPlant: String = "plant"
     
     var body: some View {
         VStack {
@@ -38,11 +43,18 @@ struct HomePage: View {
                         .navigationBarTitleDisplayMode(.large)
                         
                         // My Tree Section
-                        NavigationLink(destination: CustomisationView(stars: $stars)) {
+                        NavigationLink(
+                            destination: CustomisationView(
+                                stars: $stars,
+                                selectedPot: $selectedPot,
+                                selectedSoil: $selectedSoil,
+                                selectedPlant: $selectedPlant
+                            )
+                        ) {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 15)
                                     .fill(Color.gray.opacity(0.2))
-                                    .frame(width: 380, height: 450)
+                                    .frame(width: 380, height: 400)
                                     .shadow(radius: 10)
                                 
                                 VStack(spacing: 10) {
@@ -52,20 +64,20 @@ struct HomePage: View {
                                         .padding(.top, 20)
                                     
                                     ZStack {
-                                        Image("Starting Pot")
+                                        Image(selectedPot)
                                             .resizable()
                                             .scaledToFit()
-                                            .frame(width: 250, height: 250)
-                                        Image("soil1")
+                                            .frame(width: 400, height: 400)
+                                        Image(selectedSoil)
                                             .resizable()
                                             .scaledToFit()
-                                            .frame(width: 250, height: 250)
-                                        Image("plant")
+                                            .frame(width: 400, height: 400)
+                                        Image(selectedPlant)
                                             .resizable()
                                             .scaledToFit()
-                                            .frame(width: 250, height: 250)
+                                            .frame(width: 400, height: 400)
                                     }
-                                }
+                                }.offset(y:80)
                             }
                         }
                         .buttonStyle(PlainButtonStyle())
@@ -102,8 +114,6 @@ struct HomePage: View {
     }
 }
 
-
-
 #Preview {
-    HomePage(activeQuests: .constant([]), TabViewSelection: .constant(0))
+    HomePage(TabViewSelection: .constant(0))
 }
