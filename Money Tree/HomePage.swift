@@ -13,6 +13,7 @@ struct HomePage: View {
     
     @Binding var activeQuests: [questData]
     @Binding var TabViewSelection: Int
+    @AppStorage("shouldShowOnbarding") var shouldShowOnbarding: Bool = true
     
     // State variables for the selected customizations
     @State private var selectedPot: String = "Starting Pot"
@@ -109,11 +110,16 @@ struct HomePage: View {
                         }
                     }
                 }
+            }.fullScreenCover(isPresented: $shouldShowOnbarding, content: {
+                OnboardingView(shouldShowOnboarding: $shouldShowOnbarding)
+                
+                
             }
-        }
+            )}
+        
     }
-}
-
-#Preview {
-    HomePage(activeQuests: .constant([]), TabViewSelection: .constant(0))
+    //
+    //#Preview {
+    //    HomePage(activeQuests: .constant([]), TabViewSelection: .constant(0))
+    //}
 }
