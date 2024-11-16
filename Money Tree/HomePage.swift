@@ -127,6 +127,7 @@ struct HomePage: View {
                     Text("You don't have any active quests yet :(")
                         .offset(y: -120)
                 }
+                .offset(y: -180)
             }
         }
     }
