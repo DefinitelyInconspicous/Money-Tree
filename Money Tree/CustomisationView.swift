@@ -158,6 +158,8 @@ struct CustomisationView: View {
                             .disabled(stars < selectedItemPrice)
                         }
                     }
+                    .padding()
+                    .presentationDetents([.fraction(0.5)])
                 }
             }
         }
