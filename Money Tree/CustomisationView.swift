@@ -13,8 +13,8 @@ struct CustomisationView: View {
     @State private var selectedSoil: String = "soil1"
     @State private var selectedPlant: String = "plant"
     
-    let potImages = ["Starting Pot", "pot2", "pot3", "pot4"]
-    let potPrices = [0, 10, 15, 20]
+    let potImages = ["Starting Pot", "pot2","pot5", "pot11", "pot6", "pot8", "pot9","pot7", "pot3", "pot4"]
+    let potPrices = [0, 10, 10, 10, 10, 10, 10, 15, 20, 25]
     
     let soilImages = ["soil1", "soil2", "soil3", "soil4"]
     let soilPrices = [0, 5, 10, 15]
