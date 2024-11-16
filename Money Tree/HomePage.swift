@@ -13,6 +13,12 @@ struct HomePage: View {
     
     @Forever("activeQuests") var activeQuests:[questData] = []
     @Binding var TabViewSelection: Int
+    @AppStorage("shouldShowOnbarding") var shouldShowOnbarding: Bool = true
+    
+    // State variables for the selected customizations
+    @State private var selectedPot: String = "Starting Pot"
+    @State private var selectedSoil: String = "soil1"
+    @State private var selectedPlant: String = "plant"
     
     // State variables for the selected customizations
     @State private var selectedPot: String = "Starting Pot"
@@ -109,8 +115,13 @@ struct HomePage: View {
                         }
                     }
                 }
+            }.fullScreenCover(isPresented: $shouldShowOnbarding, content: {
+                OnboardingView(shouldShowOnboarding: $shouldShowOnbarding)
+                
+                
             }
-        }
+            )}
+        
     }
 }
 

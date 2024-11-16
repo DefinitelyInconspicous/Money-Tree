@@ -150,16 +150,16 @@ struct CustomisationView: View {
                                     isBuySheetPresented = false
                                 }
                             }
-                            .padding()
-                            .background(stars >= selectedItemPrice ? Color.green : Color.gray)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .disabled(stars < selectedItemPrice)
                         }
+                        .padding()
+                        .background(stars >= selectedItemPrice ? Color.green : Color.gray)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                        .disabled(stars < selectedItemPrice)
                     }
-                    .padding()
-                    .presentationDetents([.fraction(0.4)])
                 }
+                .padding()
+                .presentationDetents([.fraction(0.4)])
             }
         }
     }
