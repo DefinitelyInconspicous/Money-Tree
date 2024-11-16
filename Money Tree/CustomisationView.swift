@@ -1,5 +1,6 @@
 import SwiftUI
 struct CustomisationView: View {
+    
     @Binding var stars: Int
     @Binding var selectedPot: String
     @Binding var selectedSoil: String
@@ -157,8 +158,6 @@ struct CustomisationView: View {
                             .disabled(stars < selectedItemPrice)
                         }
                     }
-                    .padding()
-                    .presentationDetents([.fraction(0.4)])
                 }
             }
         }

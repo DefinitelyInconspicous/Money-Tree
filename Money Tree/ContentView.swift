@@ -41,7 +41,7 @@ struct ContentView: View {
                 prevDay = storedPrevDay
             }else{
                 print("first time")
-                UserDefaults.standard.set(Calendar.current, forKey: "PrevDay")
+                UserDefaults.standard.set(Date.now, forKey: "PrevDay")
             }
             
             let timeInterval = Calendar.current.dateComponents([.day], from: prevDay, to: Date.now)

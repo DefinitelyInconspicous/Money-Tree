@@ -57,7 +57,7 @@ struct AddExpense: View {
                     Button{
                         errorMessage = nil
                         
-                        if let expenseAmount = Double(amount), expenseAmount > 0, date <= Date() {
+                        if let expenseAmount = Double(amount), expenseAmount > 0 {
                             let newExpense = Expense(amt: expenseAmount, time: date, cat: selCat, timeact: false)
                             expenseList.append(newExpense)
                             print("Expense added: \(newExpense)") // Debug statement
@@ -65,8 +65,6 @@ struct AddExpense: View {
                         } else {
                             if let expenseAmount = Double(amount), expenseAmount <= 0 {
                                 errorMessage = "Please enter a valid amount greater than 0."
-                            } else if date > Date() {
-                                errorMessage = "The date cannot be in the future."
                             }
                         }
                     } label:{
