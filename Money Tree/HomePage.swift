@@ -94,7 +94,7 @@ struct HomePage: View {
                             .fill(Color.green)
                             .frame(width: 300, height: 100)
                         VStack {
-                            Text(activeQuests[0].quest)
+                            Text(activeQuests[0].quest())
                                 .frame(width: 270)
                                 .foregroundColor(Color.white)
                                 .bold()
