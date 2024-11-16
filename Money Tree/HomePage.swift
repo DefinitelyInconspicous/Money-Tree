@@ -70,23 +70,6 @@ struct HomePage: View {
                         .font(.largeTitle)
                         .bold()
                         .offset(x: -70, y: -130)
-                    
-                    HStack {
-                        Button{
-                            TabViewSelection = 3
-                        } label: {
-                            Text("Quests")
-                                .font(.headline)
-                                .foregroundColor(.blue)
-                                .padding(.trailing, -6)
-                                .padding(.leading, 10)
-                            Image(systemName: "chevron.right")
-                                .imageScale(.large)
-                                .fontWeight(.heavy)
-                        }
-                        .padding(-100)
-                        .offset(x: 33, y: -40)
-                    }
                 }
                 
                 
@@ -100,6 +83,7 @@ struct HomePage: View {
                                 .frame(width: 270)
                                 .foregroundColor(Color.white)
                                 .bold()
+                                .padding()
                             
                             HStack {
                                 Text(String(activeQuests[0].starNum))
