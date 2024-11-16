@@ -75,9 +75,11 @@ struct HomePage: View {
                         Button{
                             TabViewSelection = 3
                         } label: {
-                            Text("View in Quests")
+                            Text("Quests")
                                 .font(.headline)
                                 .foregroundColor(.blue)
+                                .padding(.trailing, -6)
+                                .padding(.leading, 10)
                             Image(systemName: "chevron.right")
                                 .imageScale(.large)
                                 .fontWeight(.heavy)

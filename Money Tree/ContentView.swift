@@ -5,11 +5,14 @@
 //  Created by Avyan Mehra on 9/11/24.
 //
 import SwiftUI
+import Forever
 
 struct ContentView: View {
     
-    @State var activeQuests:[questData] = []
+    @Forever("activeQuests") var activeQuests:[questData] = []
     @State var TabViewSelection = 0
+    
+    @State var firstOpened = true
     
     var body: some View {
         TabView(selection: $TabViewSelection){
@@ -30,6 +33,17 @@ struct ContentView: View {
                 }
                 .tag(3)
             
+        }
+        .onAppear{
+            firstOpened = UserDefaults.standard.bool(forKey: "firstOpened") ?? true
+            if firstOpened{
+                UserDefaults.standard.set(Date.now, forKey: "firstOpenedDay")
+                UserDefaults.standard.set(false, forKey: "firstOpened")
+                print("hello")
+            }else{
+                print("nope")
+            }
+            print("onappear done")
         }
     }
 }

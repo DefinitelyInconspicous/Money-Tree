@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import Forever
 
-struct questData{
-    let id = UUID()
+struct questData: Identifiable, Encodable, Decodable{
+    var id = UUID()
     var starNum: Int
     var limit: Double
     var timeFor: Int
@@ -67,66 +68,60 @@ struct QuestsView: View {
     @State var questLimitAlert = false
     
     @Binding var activeQuests:[questData]
-    @State var availableQuests:[questData] = []
+    @Forever("availableQuests") var availableQuests:[questData] = []
     
     var body: some View {
         NavigationStack {
             VStack{
                 List{
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color.gray.opacity(0.4))
-                            .frame(width: 300, height: 55)
-                        Text("Active Quests")
-                            .font(.title)
-                            .bold()
-                        
-                    }
                     
-                    if activeQuests.count > 0{
-                        ForEach(activeQuests, id: \.id) { quest in
-                            CreateActiveQuest(quest: quest.quest(), starNum: quest.starNum)
+                    Section(header: Text("Active Quests").bold().font(.system(size: 20))){
+                        if activeQuests.count > 0{
+                            ForEach(activeQuests, id: \.id) { quest in
+                                ZStack{
+                                    VStack{
+                                        HStack{
+                                            Text("\(quest.quest())")
+                                                .frame(width: 270)
+                                                .foregroundColor(Color.black)
+                                                .multilineTextAlignment(.leading)
+                                            
+                                            Text("\(quest.starNum)")
+                                                .font(.system(size: 21))
+                                                .foregroundColor(Color.black)
+                                                .bold()
+                                            Image(systemName: "star.fill")
+                                                .symbolRenderingMode(.multicolor)
+                                        }
+                                    }
+                                }
+                            }
+                        }else{
+                            Text("You don't have any active quests yet :(")
                         }
-                    }else{
-                        Text("You don't have any active quests yet :(")
                     }
                     
                     
                     
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color.gray.opacity(0.4))
-                            .frame(width: 300, height: 55)
-                        Text("Available Quests")
-                            .font(.title)
-                            .bold()
+                    Section(header: Text("Available Quests").bold().font(.system(size: 20))){
                         
-                    }
-                    .onAppear{
-                        updateAvailQ()
-                        print(Quests[0].quest())
-                    }
-                    
-                    ForEach(availableQuests, id:\.id) { quest in
-                        ZStack{
-                            VStack{
-                                Text("\(quest.quest())")
-                                    .frame(width: 270)
-                                    .foregroundColor(Color.black)
-                                    .multilineTextAlignment(.leading)
-                                
-                                HStack{
-                                    Text("\(quest.starNum)")
-                                        .font(.system(size: 20))
-                                        .padding(.top, 10)
-                                        .foregroundColor(Color.black)
-                                        .bold()
-                                    Image(systemName: "star.fill")
-                                        .symbolRenderingMode(.multicolor)
-                                        .padding(.top, 7)
-//                                    
-//                                    
-                                    Button("Start") {
+                        ForEach(availableQuests, id:\.id) { quest in
+                            ZStack{
+                                VStack{
+                                    HStack{
+                                        Text("\(quest.quest())")
+                                            .frame(width: 270)
+                                            .foregroundColor(Color.black)
+                                            .multilineTextAlignment(.leading)
+                                        
+                                        Text("\(quest.starNum)")
+                                            .font(.system(size: 21))
+                                            .foregroundColor(Color.black)
+                                            .bold()
+                                        Image(systemName: "star.fill")
+                                            .symbolRenderingMode(.multicolor)
+                                    }
+                                    Button{
                                         withAnimation{
                                             if(activeQuests.count < 4){
                                                 availableQuests.remove(at: availableQuests.firstIndex(where: {$0.quest() == quest.quest()})!)
@@ -136,24 +131,33 @@ struct QuestsView: View {
                                                 questLimitAlert = true
                                             }
                                         }
+                                    } label:{
+                                        ZStack{
+                                            RoundedRectangle(cornerRadius: 20)
+                                                .frame(width: .infinity, height: 30)
+                                                .ignoresSafeArea()
+                                            Text("Start")
+                                                .bold()
+                                                .foregroundStyle(.white)
+                                            
+                                        }
                                     }
-                                    .foregroundColor(Color.white)
-                                    .font(.system(size: 23))
-                                    .frame(width: 90, height: 40)
-                                    .background(Color.green)
-                                    .cornerRadius(20)
-                                    .padding(.leading, 10)
                                 }
                             }
                         }
-                    }
-                    .alert("Quest Limit", isPresented: $questLimitAlert){
-                        Button("Ok"){}
-                    } message: {
-                        Text("Complete your active quests to start new quests!")
+                        .alert("Quest Limit", isPresented: $questLimitAlert){
+                            Button("Ok"){}
+                        } message: {
+                            Text("Complete your active quests to start new quests!")
+                        }
                     }
                 }
             }
+            .onAppear{
+                updateAvailQ()
+                print(Quests[0].quest())
+            }
+            
             Spacer()
                 .navigationTitle("Quests")
                 .navigationBarTitleDisplayMode(.large)
