@@ -82,10 +82,8 @@ struct QuestsView: View {
                                     VStack{
                                         HStack{
                                             Text("\(quest.quest())")
-                                                .frame(width: 270)
                                                 .foregroundColor(Color.black)
-                                                .multilineTextAlignment(.leading)
-                                            
+                                            Spacer()
                                             Text("\(quest.starNum)")
                                                 .font(.system(size: 21))
                                                 .foregroundColor(Color.black)
