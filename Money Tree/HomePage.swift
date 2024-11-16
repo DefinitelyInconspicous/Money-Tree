@@ -10,6 +10,9 @@ import SwiftUI
 struct HomePage: View {
     @State var stars: Int = 0  // Set initial star count here
     
+    @Binding var activeQuests: [questData]
+    @Binding var TabViewSelection: Int
+    
     var body: some View {
         VStack {
             NavigationStack {
@@ -28,17 +31,6 @@ struct HomePage: View {
                     .navigationTitle("Home")
                     .navigationBarTitleDisplayMode(.large)
                     
-                    NavigationLink(destination: QuestsView()) {
-                        Text("Add expense")
-                            .font(.headline)
-                            .foregroundColor(.blue)
-                            .padding(.top, 10)
-                            .offset(x: 100, y: 40)
-                        Image(systemName: "chevron.right")
-                            .imageScale(.large)
-                            .fontWeight(.heavy)
-                            .offset(x: 100, y: 45)
-                    }
                     
                     ZStack {
                         
@@ -73,53 +65,62 @@ struct HomePage: View {
                     }
                 }
                 
-                Text("Active Quests")
-                    .font(.largeTitle)
-                    .bold()
-                    .offset(x: -70, y: -130)
-                
-                HStack {
-                    NavigationLink(destination: QuestsView()) {
-                        Text("View in Quests")
-                            .font(.headline)
-                            .foregroundColor(.blue)
-                            .padding(.top, 10)
-                        Image(systemName: "chevron.right")
-                            .imageScale(.large)
-                            .fontWeight(.heavy)
-                            .offset(y: 5)
+                HStack{
+                    Text("Active Quests")
+                        .font(.largeTitle)
+                        .bold()
+                        .offset(x: -70, y: -130)
+                    
+                    HStack {
+                        Button{
+                            TabViewSelection = 3
+                        } label: {
+                            Text("View in Quests")
+                                .font(.headline)
+                                .foregroundColor(.blue)
+                            Image(systemName: "chevron.right")
+                                .imageScale(.large)
+                                .fontWeight(.heavy)
+                        }
+                        .padding(-100)
+                        .offset(x: 33, y: -40)
                     }
                 }
-                .offset(y: -30)
                 
-                ZStack {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.green)
-                        .frame(width: 300, height: 100)
-                    VStack {
-                        Text("Do not spend more than $30 on food today")
-                            .frame(width: 270)
-                            .foregroundColor(Color.white)
-                            .bold()
-                        
-                        HStack {
-                            Text("1")
-                                .font(.system(size: 20))
-                                .padding(.top, 10)
+                
+                if activeQuests.count != 0{
+                    ZStack{
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.green)
+                            .frame(width: 300, height: 100)
+                        VStack {
+                            Text(activeQuests[0].quest)
+                                .frame(width: 270)
                                 .foregroundColor(Color.white)
                                 .bold()
-                            Image(systemName: "star.fill")
-                                .symbolRenderingMode(.multicolor)
-                                .padding(.top, 7)
+                            
+                            HStack {
+                                Text(String(activeQuests[0].starNum))
+                                    .font(.system(size: 20))
+                                    .padding(.top, 10)
+                                    .foregroundColor(Color.white)
+                                    .bold()
+                                Image(systemName: "star.fill")
+                                    .symbolRenderingMode(.multicolor)
+                                    .padding(.top, 7)
+                            }
                         }
                     }
+                    .offset(y: -130)
+                }else{
+                    Text("You don't have any active quests yet :(")
+                        .offset(y: -120)
                 }
-                .offset(y: -180)
             }
         }
     }
 }
 
 #Preview {
-    HomePage()
+    HomePage(activeQuests: .constant([]), TabViewSelection: .constant(0))
 }
