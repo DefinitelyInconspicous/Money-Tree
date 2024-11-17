@@ -72,6 +72,8 @@ struct QuestsView: View {
     @Binding var availableQuests: [questData]
     @Binding var activeQuests: [questData]
     @Binding var stars: Int
+    @State var animatedAvailableQuests:[questData] = []
+    @State var animatedActiveQuests:[questData] = []
     
     var body: some View {
         NavigationStack {
@@ -79,9 +81,9 @@ struct QuestsView: View {
                 List {
                     // Active Quests Section
                     Section(header: Text("Active Quests").bold().font(.system(size: 20))) {
-                        if activeQuests.count > 0 {
-                            ForEach(activeQuests, id: \.id) { quest in
-                                QuestCard(quest: quest, activeQuests: $activeQuests, stars: $stars)
+                        if animatedActiveQuests.count > 0 {
+                            ForEach(animatedActiveQuests, id: \.id) { quest in
+                                QuestCard(quest: quest, activeQuests: $animatedActiveQuests, stars: $stars)
                             }
                             .onDelete(perform: deleteItems)
                         } else {
@@ -92,14 +94,14 @@ struct QuestsView: View {
                     
                     // Available Quests Section
                     Section(header: Text("Available Quests").bold().font(.system(size: 20))) {
-                        ForEach(availableQuests, id: \.id) { quest in
+                        ForEach(animatedAvailableQuests, id: \.id) { quest in
                             VStack(spacing: 10) {
-                                QuestCard(quest: quest, activeQuests: $activeQuests, stars: $stars)
+                                QuestCard(quest: quest, activeQuests: $animatedActiveQuests, stars: $stars)
                                 Button {
                                     withAnimation {
-                                        if activeQuests.count < 4 {
-                                            availableQuests.removeAll(where: { $0.id == quest.id })
-                                            activeQuests.append(quest)
+                                        if animatedActiveQuests.count < 4 {
+                                            animatedAvailableQuests.removeAll(where: { $0.id == quest.id })
+                                            animatedActiveQuests.append(quest)
                                             updateAvailQ()
                                         } else {
                                             questLimitAlert = true
@@ -131,6 +133,16 @@ struct QuestsView: View {
                 updateAvailQ()
             }
         }
+        .onAppear{
+            animatedActiveQuests = activeQuests
+            animatedAvailableQuests = availableQuests
+        }
+        .onChange(of: animatedActiveQuests){
+            activeQuests = animatedActiveQuests
+        }
+        .onChange(of: animatedAvailableQuests){
+            availableQuests = animatedAvailableQuests
+        }
     }
     
     func deleteItems(at offsets: IndexSet) {
@@ -139,14 +151,14 @@ struct QuestsView: View {
         }
     }
     func updateAvailQ() {
-        while availableQuests.count < 5 {
+        while animatedAvailableQuests.count < 5 {
             var generating = true
             var randomQuest: questData
             repeat {
                 randomQuest = Quests.randomElement()!
-                generating = availableQuests.contains { $0.id == randomQuest.id }
+                generating = animatedAvailableQuests.contains { $0.id == randomQuest.id }
             } while generating
-            availableQuests.append(randomQuest)
+            animatedAvailableQuests.append(randomQuest)
         }
     }
 }
@@ -158,6 +170,7 @@ struct QuestCard: View {
     var quest: questData
     @Binding var activeQuests: [questData]
     @Binding var stars: Int
+    @State var animatedActiveQuests: [questData] = []
     
     var body: some View {
         VStack {
@@ -187,9 +200,7 @@ struct QuestCard: View {
                 Button{
                     withAnimation{
                         stars += quest.starNum
-                        activeQuests.removeAll(where: { $0.id == quest.id })
-                        print(activeQuests)
-                        print(quest.id)
+                        animatedActiveQuests.removeAll(where: { $0.id == quest.id })
                     }
                 } label: {
                     Text("Complete")
@@ -201,7 +212,7 @@ struct QuestCard: View {
             }else if quest.Status() == 3{
                 Button{
                     withAnimation{
-                        activeQuests.removeAll(where: { $0.id == quest.id })
+                        animatedActiveQuests.removeAll(where: { $0.id == quest.id })
                     }
                 } label: {
                     Text("Failed")
@@ -219,5 +230,11 @@ struct QuestCard: View {
                 .shadow(radius: 5)
                 .padding()
         )
+        .onAppear{
+            animatedActiveQuests = activeQuests
+        }
+        .onChange(of: animatedActiveQuests){
+            activeQuests = animatedActiveQuests
+        }
     }
 }
