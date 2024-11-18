@@ -29,7 +29,7 @@ struct OnboardingView: View {
             OnboardingPageView(
                 imageName: "target",
                 title: "Complete Quests",
-                subtitle: "Achieve Stars to customise your tree.",
+                subtitle: "Learn finance as you complete challenges.",
                 backgroundColor: .orange, showsDismissButton: false, shouldShowOnboarding: $shouldShowOnboarding
             )
             

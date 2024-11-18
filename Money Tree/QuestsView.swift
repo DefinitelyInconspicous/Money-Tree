@@ -213,10 +213,12 @@ struct QuestCard: View {
                 Spacer()
                 Text("\(quest.starNum)")
                     .font(.headline)
-                    .foregroundColor(Color.yellow)
+                    .foregroundColor(Color.white)
                     .padding()
                     .background() {
                         Image(systemName: "star.fill")
+                            .resizable()
+                            .frame(width: 50, height: 50)
                             .imageScale(.large)
                             .foregroundStyle(.yellow)
                             .shadow(radius: 5)
