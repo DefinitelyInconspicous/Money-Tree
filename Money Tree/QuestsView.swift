@@ -12,19 +12,31 @@ struct questData: Identifiable, Encodable, Decodable, Equatable {
     var id = UUID()
     var starNum: Int
     var limit: Double
+    var originalLimit: Double?
     let timeFor: Int
     var catagory: String
     var timeLeft: Int?
     var status: Bool?
     
     func quest() -> String {
-        return "\(limit == 0 ? "Do not spend" : "Spend less than") \(limit != 0 ? "$\(Int(limit)).\(Int(String(limit).split(separator: ".")[1]) ?? 0)" : "") on \(catagory) \(timeFor == 1 ? "today" : "for \((timeLeft ?? nil == nil) ? timeFor : timeLeft!) days")"
+        return "\(limit <= 0 ? "Do not spend" : "Spend less than") \(limit <= 0 ? (limit < 0 ? "$\(originalLimit!)" : "")  : "$\(Int(limit)).\(Int(String(limit).split(separator: ".")[1]) ?? 0)") on \(catagory) \(timeFor == 1 ? "today" : "for \((timeLeft ?? nil == nil) ? timeFor : timeLeft!) days")"
     }
     func Status() -> Int{
         return ( ((status) ?? nil == nil) ? 1 : (status! ? 2 : 3) )
     }
     mutating func Start(){
         timeLeft = timeFor
+    }
+    
+    init(id: UUID = UUID(), starNum: Int, limit: Double, originalLimit: Double? = nil, timeFor: Int, catagory: String, timeLeft: Int? = nil, status: Bool? = nil) {
+        self.id = id
+        self.starNum = starNum
+        self.limit = limit
+        self.originalLimit = limit
+        self.timeFor = timeFor
+        self.catagory = catagory
+        self.timeLeft = timeLeft
+        self.status = status
     }
 }
 
@@ -256,7 +268,6 @@ struct QuestCard: View {
                         .cornerRadius(10)
                 }
             }else if (quest.timeLeft ?? nil) != nil{
-//                ProgressView(label: "Time Left:", value: quest.timeLeft!, total: quest.timeFor)
                 ProgressView("Time Left: ", value: Double(quest.timeFor - quest.timeLeft!) / Double(quest.timeFor))
             }
         }
