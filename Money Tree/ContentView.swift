@@ -26,7 +26,7 @@ struct ContentView: View {
                 .tabItem{
                     Label("Home", systemImage: "house.fill")
                 }
-            FinanceHome()
+            FinanceHome(expenseList: $expenseList)
                 .tabItem{
                     Label("Finance", systemImage: "dollarsign")
                 }
@@ -71,12 +71,13 @@ struct ContentView: View {
             let timeInterval = Calendar.current.dateComponents([.day], from: prevDay, to: Date.now)
             if timeInterval.day! > 0{
                 for i in 0..<activeQuests.count{
-                    activeQuests[i].timeFor -= 1
+                    activeQuests[i].timeLeft! -= 1
                 }
             }
         }
         .onChange(of: expenseList){ _, _ in
             //Update Amount Left
+            print("hi")
             let expense = expenseList.last
             
             for i in 0..<activeQuests.count{

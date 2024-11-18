@@ -12,15 +12,19 @@ struct questData: Identifiable, Encodable, Decodable, Equatable {
     var id = UUID()
     var starNum: Int
     var limit: Double
-    var timeFor: Int
+    let timeFor: Int
     var catagory: String
+    var timeLeft: Int?
     var status: Bool?
     
     func quest() -> String {
-        return "\(limit == 0 ? "Do not spend" : "Spend less than") \(limit != 0 ? "$\(Int(limit)).\(Int(String(limit).split(separator: ".")[1]) ?? 0)" : "") on \(catagory) \(timeFor == 1 ? "today" : "for \(timeFor) days")"
+        return "\(limit == 0 ? "Do not spend" : "Spend less than") \(limit != 0 ? "$\(Int(limit)).\(Int(String(limit).split(separator: ".")[1]) ?? 0)" : "") on \(catagory) \(timeFor == 1 ? "today" : "for \((timeLeft ?? nil == nil) ? timeFor : timeLeft!) days")"
     }
     func Status() -> Int{
         return ( ((status) ?? nil == nil) ? 1 : (status! ? 2 : 3) )
+    }
+    mutating func Start(){
+        timeLeft = timeFor
     }
 }
 
@@ -92,14 +96,15 @@ struct QuestsView: View {
                     
                     // Available Quests Section
                     Section(header: Text("Available Quests").bold().font(.system(size: 20))) {
-                        ForEach(animatedAvailableQuests, id: \.id) { quest in
+                        ForEach(0..<animatedAvailableQuests.count, id: \.self) { questIndx in
                             VStack(spacing: 10) {
-                                QuestCard(quest: quest, activeQuests: $animatedActiveQuests, stars: $stars)
+                                QuestCard(quest: animatedAvailableQuests[questIndx], activeQuests: $animatedActiveQuests, stars: $stars)
                                 Button {
                                     withAnimation {
                                         if animatedActiveQuests.count < 4 {
-                                            animatedAvailableQuests.removeAll(where: { $0.id == quest.id })
-                                            animatedActiveQuests.append(quest)
+                                            animatedAvailableQuests[questIndx].Start()
+                                            animatedActiveQuests.append(animatedAvailableQuests[questIndx])
+                                            animatedAvailableQuests.remove(at: questIndx)
                                             updateAvailQ()
                                         } else {
                                             questLimitAlert = true
@@ -117,6 +122,33 @@ struct QuestsView: View {
                                 }
                             }
                         }
+
+//                        ForEach(animatedAvailableQuests, id: \.id) { quest in
+//                            VStack(spacing: 10) {
+//                                QuestCard(quest: quest, activeQuests: $animatedActiveQuests, stars: $stars)
+//                                Button {
+//                                    withAnimation {
+//                                        if animatedActiveQuests.count < 4 {
+//                                            animatedAvailableQuests[animatedAvailableQuests.firstIndex(where: { $0.id == quest.id })].Start()
+//                                            animatedAvailableQuests.removeAll(where: { $0.id == quest.id })
+//                                            animatedActiveQuests.append(quest)
+//                                            updateAvailQ()
+//                                        } else {
+//                                            questLimitAlert = true
+//                                        }
+//                                    }
+//                                } label: {
+//                                    ZStack {
+//                                        RoundedRectangle(cornerRadius: 10)
+//                                            .fill(Color.blue)
+//                                            .frame(height: 40)
+//                                        Text("Start")
+//                                            .foregroundColor(.white)
+//                                            .bold()
+//                                    }
+//                                }
+//                            }
+//                        }
                     }
                     .alert("QUEST LIMIT", isPresented: $questLimitAlert) {
                         Button("OK", role: .cancel) {}
@@ -221,6 +253,9 @@ struct QuestCard: View {
                         .background(Color.red)
                         .cornerRadius(10)
                 }
+            }else if (quest.timeLeft ?? nil) != nil{
+//                ProgressView(label: "Time Left:", value: quest.timeLeft!, total: quest.timeFor)
+                ProgressView("Time Left: ", value: Double(quest.timeFor - quest.timeLeft!) / Double(quest.timeFor))
             }
         }
         .padding(20)
