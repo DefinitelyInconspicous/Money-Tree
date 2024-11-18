@@ -140,7 +140,7 @@ struct FinanceHome: View {
                             .fontWeight(.heavy)
                     }
                 }
-                ToolbarItem() {
+                ToolbarItem(placement: .navigationBarLeading) {
                     Button {
                         withAnimation {
                             showBudgetSheet = true
