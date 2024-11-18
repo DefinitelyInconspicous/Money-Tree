@@ -32,12 +32,18 @@ struct CategoryBudget: Identifiable, Decodable, Encodable {
 struct FinanceHome: View {
     @Forever("TimelineGraph") var timelineGraph: [MonthData] = [MonthData(x: "Jan", y: 0), MonthData(x: "Feb", y: 0), MonthData(x: "Mar", y: 0), MonthData(x: "Apr", y: 0), MonthData(x: "May", y: 0), MonthData(x: "Jun", y: 0), MonthData(x: "Jul", y: 0), MonthData(x: "Aug", y: 0), MonthData(x: "Sep", y: 0), MonthData(x: "Oct", y: 0), MonthData(x: "Nov", y: 0), MonthData(x: "Dec", y: 0)]
     
-    @Forever("expenseList") var expenseList: [Expense] = [Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false)]
+    @Binding var expenseList: [Expense]
     
     @Forever("categoryBudgets") var categoryBudgets: [CategoryBudget] = [
         CategoryBudget(cat: "Food", budget: 500),
         CategoryBudget(cat: "Transport", budget: 300),
-        CategoryBudget(cat: "Entertainment", budget: 200)
+        CategoryBudget(cat: "Entertainment", budget: 200),
+        CategoryBudget(cat: "Clothes", budget: 100),
+        CategoryBudget(cat: "Utilities", budget: 400),
+        CategoryBudget(cat: "Shopping", budget: 200),
+        CategoryBudget(cat: "Essentials", budget: 100),
+        CategoryBudget(cat: "Entertainment", budget: 200),
+        CategoryBudget(cat: "Transportation", budget: 50)
     ]
     
     @State private var expenseAdd = false
@@ -78,7 +84,7 @@ struct FinanceHome: View {
                                     .transition(.opacity)
                             }
                             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                            .frame(height: 300)
+                            .frame(height: 400)
                             .animation(.easeInOut, value: selectedGraph)
                             
                         }
@@ -134,7 +140,7 @@ struct FinanceHome: View {
                             .fontWeight(.heavy)
                     }
                 }
-                ToolbarItem() {
+                ToolbarItem(placement: .navigationBarLeading) {
                     Button {
                         withAnimation {
                             showBudgetSheet = true
@@ -318,7 +324,7 @@ struct LineChartView: View {
 }
 
 struct BarChartView: View {
-    @Forever("expenseList") var expenseList: [Expense] = [Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false)]
+    @Forever("expenseList") var expenseList: [Expense] = []
     
     var body: some View {
         let groupedData = Dictionary(grouping: expenseList) { expense in
@@ -339,7 +345,11 @@ struct BarChartView: View {
 }
 
 struct PieChartView: View {
-    @Forever("expenseList") var expenseList: [Expense] = [Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false)]
+    @Forever("expenseList") var expenseList: [Expense] = [
+        Expense(amt: 0, time: .now, cat: "Sample", timeact: false),
+        Expense(amt: 0, time: .now, cat: "Sample", timeact: false),
+        Expense(amt: 0, time: .now, cat: "Sample", timeact: false)
+    ]
     @Forever("categoryBudgets") var categoryBudgets: [CategoryBudget] = []
     
     var body: some View {
@@ -352,7 +362,7 @@ struct PieChartView: View {
         }
         
         VStack {
-
+            // Pie chart
             Chart {
                 ForEach(chartData, id: \.label) { entry in
                     SectorMark(
@@ -366,17 +376,21 @@ struct PieChartView: View {
             .frame(width: 300, height: 220)
             .padding()
             
-            // Labels below the chart
+            // Labels with budgets below the chart
             HStack {
                 ForEach(chartData, id: \.label) { entry in
+                    let budget = categoryBudgets.first(where: { $0.cat == entry.label })?.budget ?? 0.0
                     VStack {
                         Text(entry.label)
                             .font(.caption)
                             .fontWeight(.semibold)
                             .foregroundColor(.black)
-                        Text(String(format: "$ %.2f", entry.value))
+                        Text("Spent: \(String(format: "$%.2f", entry.value))")
                             .font(.footnote)
                             .foregroundColor(.gray)
+                        Text("Budget: \(String(format: "$%.2f", budget))")
+                            .font(.footnote)
+                            .foregroundColor(entry.value > budget ? .red : .green)
                     }
                     .frame(maxWidth: .infinity)
                 }
@@ -385,6 +399,7 @@ struct PieChartView: View {
         }
     }
 }
+
 
 struct PieChartDataEntry {
     let value: Double
