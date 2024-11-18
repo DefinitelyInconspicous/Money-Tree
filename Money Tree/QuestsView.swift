@@ -27,53 +27,51 @@ struct questData: Identifiable, Encodable, Decodable, Equatable {
 
 struct QuestsView: View {
     @State var Quests: [questData] = [ // ALL QUESTS
-        questData(starNum: 1, limit: 30, timeFor: 1, catagory: "Food"),
-        questData(starNum: 5, limit: 30, timeFor: 7, catagory: "Food"),
-        questData(starNum: 1, limit: 0, timeFor: 7, catagory: "Shopping"),
-        questData(starNum: 1, limit: 60, timeFor: 30, catagory: "Clothes"),
-        questData(starNum: 3, limit: 50, timeFor: 2, catagory: "Food"),
-        questData(starNum: 4, limit: 100, timeFor: 30, catagory: "Entertainment"),
-        questData(starNum: 2, limit: 30, timeFor: 5, catagory: "Transportation"),
-        questData(starNum: 3, limit: 50, timeFor: 7, catagory: "Shopping"),
-        questData(starNum: 2, limit: 20, timeFor: 7, catagory: "Food"),
-        questData(starNum: 2, limit: 0, timeFor: 1, catagory: "Essentials"),
-        questData(starNum: 3, limit: 15, timeFor: 2, catagory: "Entertainment"),
-        questData(starNum: 2, limit: 0, timeFor: 7, catagory: "Entertainment"),
-        questData(starNum: 3, limit: 0, timeFor: 3, catagory: "Essentials"),
-        questData(starNum: 4, limit: 0, timeFor: 10, catagory: "Entertainment"),
-        questData(starNum: 1, limit: 20, timeFor: 1, catagory: "Shopping"),
-        questData(starNum: 4, limit: 100, timeFor: 30, catagory: "Food"),
-        questData(starNum: 2, limit: 30, timeFor: 2, catagory: "Entertainment"),
-        questData(starNum: 3, limit: 0, timeFor: 7, catagory: "Entertainment"),
-        questData(starNum: 2, limit: 25, timeFor: 7, catagory: "Food"),
-        questData(starNum: 3, limit: 0, timeFor: 10, catagory: "Clothes"),
-        questData(starNum: 5, limit: 40, timeFor: 30, catagory: "Entertainment"),
-        questData(starNum: 1, limit: 10, timeFor: 1, catagory: "Food"),
-        questData(starNum: 3, limit: 0, timeFor: 2, catagory: "Essentials"),
-        questData(starNum: 4, limit: 50, timeFor: 30, catagory: "Transportation"),
-        questData(starNum: 2, limit: 5, timeFor: 7, catagory: "Entertainment"),
-        questData(starNum: 2, limit: 0, timeFor: 2, catagory: "Shopping"),
-        questData(starNum: 5, limit: 0, timeFor: 30, catagory: "Entertainment"),
-        questData(starNum: 5, limit: 0, timeFor: 14, catagory: "Shopping"),
-        questData(starNum: 3, limit: 150, timeFor: 30, catagory: "Food"),
-        questData(starNum: 3, limit: 40, timeFor: 2, catagory: "Food"),
-        questData(starNum: 3, limit: 0, timeFor: 7, catagory: "Essentials"),
-        questData(starNum: 1, limit: 0, timeFor: 1, catagory: "Entertainment"),
-        questData(starNum: 3, limit: 15, timeFor: 7, catagory: "Transportation"),
-        questData(starNum: 2, limit: 0, timeFor: 2, catagory: "Shopping"),
-        questData(starNum: 4, limit: 0, timeFor: 7, catagory: "Entertainment"),
-        questData(starNum: 3, limit: 50, timeFor: 30, catagory: "Essentials"),
-        questData(starNum: 2, limit: 20, timeFor: 7, catagory: "Essentials")
-    ]
-    
+            questData(starNum: 1, limit: 30, timeFor: 1, catagory: "Food"),
+            questData(starNum: 5, limit: 30, timeFor: 7, catagory: "Food"),
+            questData(starNum: 1, limit: 0, timeFor: 7, catagory: "Shopping"),
+            questData(starNum: 1, limit: 60, timeFor: 30, catagory: "Clothes"),
+            questData(starNum: 3, limit: 50, timeFor: 2, catagory: "Food"),
+            questData(starNum: 4, limit: 100, timeFor: 30, catagory: "Entertainment"),
+            questData(starNum: 2, limit: 30, timeFor: 5, catagory: "Transportation"),
+            questData(starNum: 3, limit: 50, timeFor: 7, catagory: "Shopping"),
+            questData(starNum: 2, limit: 20, timeFor: 7, catagory: "Food"),
+            questData(starNum: 2, limit: 0, timeFor: 1, catagory: "Essentials"),
+            questData(starNum: 3, limit: 15, timeFor: 2, catagory: "Entertainment"),
+            questData(starNum: 2, limit: 0, timeFor: 7, catagory: "Entertainment"),
+            questData(starNum: 3, limit: 0, timeFor: 3, catagory: "Essentials"),
+            questData(starNum: 4, limit: 0, timeFor: 10, catagory: "Entertainment"),
+            questData(starNum: 1, limit: 20, timeFor: 1, catagory: "Shopping"),
+            questData(starNum: 4, limit: 100, timeFor: 30, catagory: "Food"),
+            questData(starNum: 2, limit: 30, timeFor: 2, catagory: "Entertainment"),
+            questData(starNum: 3, limit: 0, timeFor: 7, catagory: "Entertainment"),
+            questData(starNum: 2, limit: 25, timeFor: 7, catagory: "Food"),
+            questData(starNum: 3, limit: 0, timeFor: 10, catagory: "Clothes"),
+            questData(starNum: 5, limit: 40, timeFor: 30, catagory: "Entertainment"),
+            questData(starNum: 1, limit: 10, timeFor: 1, catagory: "Food"),
+            questData(starNum: 3, limit: 0, timeFor: 2, catagory: "Essentials"),
+            questData(starNum: 4, limit: 50, timeFor: 30, catagory: "Transportation"),
+            questData(starNum: 2, limit: 5, timeFor: 7, catagory: "Entertainment"),
+            questData(starNum: 2, limit: 0, timeFor: 2, catagory: "Shopping"),
+            questData(starNum: 5, limit: 0, timeFor: 30, catagory: "Entertainment"),
+            questData(starNum: 5, limit: 0, timeFor: 14, catagory: "Shopping"),
+            questData(starNum: 3, limit: 150, timeFor: 30, catagory: "Food"),
+            questData(starNum: 3, limit: 40, timeFor: 2, catagory: "Food"),
+            questData(starNum: 3, limit: 0, timeFor: 7, catagory: "Essentials"),
+            questData(starNum: 1, limit: 0, timeFor: 1, catagory: "Entertainment"),
+            questData(starNum: 3, limit: 15, timeFor: 7, catagory: "Transportation"),
+            questData(starNum: 2, limit: 0, timeFor: 2, catagory: "Shopping"),
+            questData(starNum: 4, limit: 0, timeFor: 7, catagory: "Entertainment"),
+            questData(starNum: 3, limit: 50, timeFor: 30, catagory: "Essentials"),
+            questData(starNum: 2, limit: 20, timeFor: 7, catagory: "Essentials")
+        ]
     
     @State var questLimitAlert = false
-    
     @Binding var availableQuests: [questData]
     @Binding var activeQuests: [questData]
     @Binding var stars: Int
-    @State var animatedAvailableQuests:[questData] = []
-    @State var animatedActiveQuests:[questData] = []
+    @State var animatedAvailableQuests: [questData] = []
+    @State var animatedActiveQuests: [questData] = []
     
     var body: some View {
         NavigationStack {
@@ -88,7 +86,7 @@ struct QuestsView: View {
                             .onDelete(perform: deleteItems)
                         } else {
                             Text("You don't have any active quests yet 😔")
-                                .foregroundColor(.gray)
+                                .foregroundColor(Color.secondary)
                         }
                     }
                     
@@ -133,23 +131,25 @@ struct QuestsView: View {
                 updateAvailQ()
             }
         }
-        .onAppear{
+        .onAppear {
             animatedActiveQuests = activeQuests
             animatedAvailableQuests = availableQuests
         }
-        .onChange(of: animatedActiveQuests){
+        .onChange(of: animatedActiveQuests) {
             activeQuests = animatedActiveQuests
         }
-        .onChange(of: animatedAvailableQuests){
+        .onChange(of: animatedAvailableQuests) {
             availableQuests = animatedAvailableQuests
         }
     }
     
     func deleteItems(at offsets: IndexSet) {
         withAnimation {
-            activeQuests.remove(atOffsets: offsets)
+            animatedActiveQuests.remove(atOffsets: offsets)
+            activeQuests = animatedActiveQuests
         }
     }
+
     func updateAvailQ() {
         while animatedAvailableQuests.count < 5 {
             var generating = true
@@ -162,9 +162,6 @@ struct QuestsView: View {
         }
     }
 }
-
-
-
 
 struct QuestCard: View {
     var quest: questData
@@ -179,26 +176,25 @@ struct QuestCard: View {
                     Text(quest.quest())
                         .font(.headline)
                         .frame(maxHeight: .infinity)
-                        .foregroundColor(.primary)
+                        .foregroundColor(Color.primary) // Adaptive color
                 }
                 Spacer()
                 Text("\(quest.starNum)")
                     .font(.headline)
-                    .foregroundColor(.white)
+                    .foregroundColor(Color.yellow)
+                    .padding()
                     .background() {
                         Image(systemName: "star.fill")
-                            .resizable()
+                            .imageScale(.large)
                             .foregroundStyle(.yellow)
-                            .frame(width: 50, height: 50)
+                            .shadow(radius: 5)
                     }
-                    .padding()
-                
             }
             .padding()
             
-            if quest.Status() == 2{
-                Button{
-                    withAnimation{
+            if quest.Status() == 2 {
+                Button {
+                    withAnimation {
                         stars += quest.starNum
                         animatedActiveQuests.removeAll(where: { $0.id == quest.id })
                     }
@@ -206,35 +202,40 @@ struct QuestCard: View {
                     Text("Complete")
                         .bold()
                         .font(.system(size: 20))
-                        .foregroundStyle(Color.white)
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.green)
+                        .cornerRadius(10)
                 }
-                .padding(.top, -30)
-            }else if quest.Status() == 3{
-                Button{
-                    withAnimation{
+            } else if quest.Status() == 3 {
+                Button {
+                    withAnimation {
                         animatedActiveQuests.removeAll(where: { $0.id == quest.id })
                     }
                 } label: {
                     Text("Failed")
                         .bold()
                         .font(.system(size: 20))
-                        .foregroundStyle(Color.white)
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.red)
+                        .cornerRadius(10)
                 }
-                .padding(.top, -30)
             }
         }
-        .padding()
+        .padding(20)
         .background(
             RoundedRectangle(cornerRadius: 15)
-                .fill(quest.Status() == 1 ? Color.white : quest.Status() == 2 ? Color.green : Color.red)
+                .fill(quest.Status() == 1 ? Color(UIColor.systemBackground) :
+                      (quest.Status() == 2 ? Color.green.opacity(0.2) : Color.red.opacity(0.2)))
                 .shadow(radius: 5)
-                .padding()
         )
-        .onAppear{
+        .onAppear {
             animatedActiveQuests = activeQuests
         }
-        .onChange(of: animatedActiveQuests){
+        .onChange(of: animatedActiveQuests) {
             activeQuests = animatedActiveQuests
         }
     }
 }
+

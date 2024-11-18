@@ -32,7 +32,7 @@ struct CategoryBudget: Identifiable, Decodable, Encodable {
 struct FinanceHome: View {
     @Forever("TimelineGraph") var timelineGraph: [MonthData] = [MonthData(x: "Jan", y: 0), MonthData(x: "Feb", y: 0), MonthData(x: "Mar", y: 0), MonthData(x: "Apr", y: 0), MonthData(x: "May", y: 0), MonthData(x: "Jun", y: 0), MonthData(x: "Jul", y: 0), MonthData(x: "Aug", y: 0), MonthData(x: "Sep", y: 0), MonthData(x: "Oct", y: 0), MonthData(x: "Nov", y: 0), MonthData(x: "Dec", y: 0)]
     
-    @Forever("expenseList") var expenseList: [Expense] = [Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false), Expense(amt: 0, time: .now, cat: "Sample", timeact: false)]
+    @Forever("expenseList") var expenseList: [Expense] = []
     
     @Forever("categoryBudgets") var categoryBudgets: [CategoryBudget] = [
         CategoryBudget(cat: "Food", budget: 500),

@@ -11,86 +11,71 @@ import Forever
 struct AddExpense: View {
     @Forever("Categories") var categories: [String] = ["Food", "Clothes", "Utilities", "Shopping", "Entertainment", "Essentials", "Transportation"]
     @Binding var expenseList: [Expense]
-    @State var selCat = "Food"
-    @State var amount = ""
-    @State var date: Date = .now
+    @State private var selCat = "Food"
+    @State private var amount = ""
+    @State private var date: Date = .now
     @State private var errorMessage: String? = nil
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         NavigationStack {
             Form {
-                // Category Picker Section
-                Section(header: Text("Category").font(.headline)) {
+                Section(header: Text("Category")) {
                     Picker("Category", selection: $selCat) {
-                        ForEach(categories, id: \.self) { cat in
-                            Text(cat).tag(cat)
-                        }
+                        ForEach(categories, id: \.self) { Text($0).tag($0) }
                     }
-                    .pickerStyle(MenuPickerStyle())
                 }
-
-                // Amount Input Section
-                Section(header: Text("Amount").font(.headline)) {
+                Section(header: Text("Amount")) {
                     TextField("Enter amount", text: $amount)
                         .keyboardType(.decimalPad)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding(.vertical, 10)
-                    
+                        .onChange(of: amount) { _ in validateForm() }
                     if let errorMessage = errorMessage {
-                        Text(errorMessage)
-                            .font(.caption)
-                            .foregroundColor(.red)
-                            .padding(.top, 5)
+                        Text(errorMessage).font(.caption).foregroundColor(.red)
                     }
                 }
-
-                // Date Picker Section
-                Section(header: Text("Date").font(.headline)) {
-                    DatePicker("Select date", selection: $date, in: ...Date.now, displayedComponents: .date)
-                        .datePickerStyle(DefaultDatePickerStyle())
-                        .padding(.vertical, 10)
+                Section(header: Text("Date")) {
+                    DatePicker("Select date", selection: $date, in: ...Date.now)
+                        .onChange(of: date) { _ in validateForm() }
                 }
 
-                // Add Expense Button
-                Section {
-                    Button{
-                        errorMessage = nil
-                        
-                        if let expenseAmount = Double(amount), expenseAmount > 0 {
-                            let newExpense = Expense(amt: expenseAmount, time: date, cat: selCat, timeact: false)
-                            expenseList.append(newExpense)
-                            print("Expense added: \(newExpense)") // Debug statement
-                            dismiss()
-                        } else {
-                            if let expenseAmount = Double(amount), expenseAmount <= 0 {
-                                errorMessage = "Please enter a valid amount greater than 0."
-                            }
-                        }
-                    } label:{
-                        Text("Add Expense")
-                            .fontWeight(.semibold)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .padding()
-                            .background(Color.green)
-                            .opacity(isFormInvalid ? 0.7 : 1)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .padding(.vertical)
-                    }
-                    .disabled(isFormInvalid)
-                }
+                
             }
+            
+            Button("Add Expense", action: addExpense)
+                .padding()
+                .background(isFormInvalid ? Color.gray : Color.green)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                .disabled(isFormInvalid)
+            Spacer()
             .navigationTitle("Add Expense")
             .navigationBarTitleDisplayMode(.inline)
-            .onTapGesture {
-                UIApplication.shared.dismissKeyboard()
-            }
+            .onTapGesture { UIApplication.shared.dismissKeyboard() }
         }
     }
 
     private var isFormInvalid: Bool {
-        return amount.isEmpty || Double(amount) == nil || Double(amount) == 0 || date > Date()
+        amount.isEmpty || Double(amount) == nil || (Double(amount) ?? 0) <= 0 || date > Date()
+    }
+
+    private func validateForm() {
+        errorMessage = nil
+        if amount.isEmpty || Double(amount) == nil {
+            errorMessage = "Please enter a valid amount."
+        } else if let expenseAmount = Double(amount), expenseAmount <= 0 {
+            errorMessage = "Amount must be greater than 0."
+        } else if date > Date() {
+            errorMessage = "The selected date cannot be in the future."
+        }
+    }
+
+    private func addExpense() {
+        guard let expenseAmount = Double(amount), expenseAmount > 0 else {
+            errorMessage = "Please enter a valid amount greater than 0."
+            return
+        }
+        expenseList.append(Expense(amt: expenseAmount, time: date, cat: selCat, timeact: false))
+        dismiss()
     }
 }
 
